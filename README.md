@@ -1,6 +1,6 @@
 # Semantic Shield <img src="shield/img/shield2.png" alt="drawing" width="30"/>
 
-Semantic Shield is a set of filters for controlling the input to large language model, to protect against malicious attacks, undesirable subjects, leaks of confidential information, etc. Semantic Shield is engineered to serve three primary purposes:
+Semantic Shield is a Security Toolkit for managing Generative AI(especially LLMs) and Supervised Learning inputs and outputs to protect against malicious attacks, undesirable subjects, leaks of confidential information, etc. Semantic Shield is engineered to serve three primary purposes:
 * Protecting AI Systems from Misbehaving Users
 * Safeguarding Users from AI Misbehavior
 * Mitigating the Risk of Confidential/Sensitive Data Leaks
