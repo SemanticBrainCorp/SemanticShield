@@ -1,0 +1,11 @@
+notes - additional tools
+
+inpiredco.critique  - discontinued
+https://www.geeksforgeeks.org/readability-index-pythonnlp/
+
+alt-profanity-check
+
+thefuzz
+    e.g. Remove redundant sentences from a string
+
+
