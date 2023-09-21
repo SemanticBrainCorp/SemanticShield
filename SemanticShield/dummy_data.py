@@ -1,5 +1,5 @@
 from faker import Faker
-from fakers.canadian_card_provider import CanadianCardProvider
+from SemanticShield.fakers.canadian_card_provider import CanadianCardProvider
 
 class DummyData:
     def __init__(self, use_placeholders = False) -> None:

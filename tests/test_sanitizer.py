@@ -1,9 +1,4 @@
-import pytest
-import sys
-sys.path.append('shield')
-
-from shield import SemanticShield
-from shield_config import ShieldConfig
+from SemanticShield import SemanticShield, ShieldConfig
 
 text = """My name is Jason Bourne and my phone number is 917-443-5431.
 My social security number is 778-62-8144.

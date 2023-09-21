@@ -4,16 +4,16 @@ from typing import List
 from presidio_analyzer import AnalyzerEngine, RecognizerResult, AnalyzerEngine, RecognizerRegistry
 
 
-from shield.config_defaults import ConfigDefaults
-from shield.dummy_data import DummyData
-from shield.shield_config import PIIConfig
-from shield.recognizers.canadian_passport_recognizer import CanadianPassportRecognizer
-from shield.recognizers.canadian_sin_recognizer import CanadianSINRecognizer
-from shield.recognizers.ontario_driver_license_recognizer import OntarioLicenseRecognizer
-from shield.recognizers.ontario_health_card_recognizer import OntarioHealthCardRecognizer
-from shield.recognizers.canadian_bank_acct_recognizer import CanadianBankAccountRecognizer
+from SemanticShield.config_defaults import ConfigDefaults
+from SemanticShield.dummy_data import DummyData
+from SemanticShield.shield_config import PIIConfig
+from SemanticShield.recognizers.canadian_passport_recognizer import CanadianPassportRecognizer
+from SemanticShield.recognizers.canadian_sin_recognizer import CanadianSINRecognizer
+from SemanticShield.recognizers.ontario_driver_license_recognizer import OntarioLicenseRecognizer
+from SemanticShield.recognizers.ontario_health_card_recognizer import OntarioHealthCardRecognizer
+from SemanticShield.recognizers.canadian_bank_acct_recognizer import CanadianBankAccountRecognizer
 
-from shield.supported_entities import supported_entities
+from SemanticShield.supported_entities import supported_entities
 
 def init_analyzer():
     #TODO automate list of custom recognizers

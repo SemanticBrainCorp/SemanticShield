@@ -1,22 +1,16 @@
 from pprint import pprint
 
+from SemanticShield import SemanticShield, ShieldConfig
+from SemanticShield.fakers.canadian_card_provider import CanadianCardProvider
 
-import sys
-sys.path.append('shield')
-
-from shield import SemanticShield
-from shield_config import ShieldConfig
-from pii import PIIAnalyzer
-from fakers.canadian_card_provider import CanadianCardProvider
-
-analyzer = PIIAnalyzer()
-pprint(analyzer.get_supported_entities())
-import os
-result = os.environ.get('ABC')
-if result:
-    print(result)
-else:
-    print('key not found')
+# analyzer = PIIAnalyzer()
+# pprint(analyzer.get_supported_entities())
+# import os
+# result = os.environ.get('ABC')
+# if result:
+#     print(result)
+# else:
+#     print('key not found')
 
 good_prompts = [
     'What is the monthly payment I need to make for a house priced $1000000?',

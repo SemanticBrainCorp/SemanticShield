@@ -1,14 +1,5 @@
-import pytest
-
-import sys
-sys.path.append('shield')
-
-from shield import SemanticShield
-from shield_config import ShieldConfig
-# from recognizers.ontario_driver_license_recognizer import OntarioLicenseRecognizer
-# from recognizers.ontario_health_card_recognizer import OntarioHealthCardRecognizer
-# from recognizers.canadian_passport_recognizer import CanadianPassportRecognizer
-# from recognizers.canadian_sin_recognizer import CanadianSINRecognizer
+from SemanticShield import SemanticShield
+from SemanticShield import SemanticShield, ShieldConfig
 
 text_driver = "I live in Ontario and my driver's licence is A12345-67890-1234."
 text_ohip = "my OHIP card is 1234-123-123-AA."

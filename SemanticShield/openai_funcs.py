@@ -1,11 +1,11 @@
 import logging
 import openai
 import os
-from shield.moderation_exception import ModerationException
-from shield.llm_result import LLMCheckResult
+from SemanticShield.moderation_exception import ModerationException
+from SemanticShield.llm_result import LLMCheckResult
 
-from shield.openai_model import OpenAIModel
-from shield.openai_settings import OpenAISettings
+from SemanticShield.openai_model import OpenAIModel
+from SemanticShield.openai_settings import OpenAISettings
 
 ENGINE=OpenAISettings.ENGINE
 CHAT_ENGINE=OpenAISettings.CHAT_ENGINE

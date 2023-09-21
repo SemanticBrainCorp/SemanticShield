@@ -1,6 +1,5 @@
 from pprint import pprint
-# from pii import PIIAnalyzer
-from shield import SemanticShield, ShieldConfig
+from SemanticShield import SemanticShield, ShieldConfig
 
 
 text = """

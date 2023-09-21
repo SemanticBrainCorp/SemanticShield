@@ -5,15 +5,15 @@ from typing import Callable, Dict, Optional
 
 import spacy
 
-from openai_funcs import moderate_prompt, run_prompt
-from shield.moderation_exception import ModerationException
-from shield.shield_result import ShieldResult
-from shield.llm_result import LLMCheckResult
+from SemanticShield.openai_funcs import moderate_prompt, run_prompt
+from SemanticShield.moderation_exception import ModerationException
+from SemanticShield.shield_result import ShieldResult
+from SemanticShield.llm_result import LLMCheckResult
 
-from shield.pii import PIIAnalyzer
+from SemanticShield.pii_analyzer import PIIAnalyzer
 
-from shield.prompts import Prompts
-from shield.shield_config import ShieldConfig
+from SemanticShield.prompts import Prompts
+from SemanticShield.shield_config import ShieldConfig
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -15s %(filename) -15s %(funcName) '
               '-15s %(lineno) -5d: %(message)s')

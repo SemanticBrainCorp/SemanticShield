@@ -3,8 +3,8 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Type
 from pprint import pprint
 
-from shield.config_defaults import ConfigDefaults
-from shield.prompts import Prompts
+from SemanticShield.config_defaults import ConfigDefaults
+from SemanticShield.prompts import Prompts
 
 #TODO - add address regognizer - e.g. https://huggingface.co/spaces/omri374/presidio/blob/main/transformers_recognizer.py
 

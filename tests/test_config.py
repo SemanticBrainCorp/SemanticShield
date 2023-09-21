@@ -1,11 +1,8 @@
 import pytest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 import os
-import sys
-sys.path.append('shield')
 
-from shield import SemanticShield
-from shield_config import ShieldConfig
+from SemanticShield import SemanticShield, ShieldConfig
 
 good_moderation = {
     'results': [

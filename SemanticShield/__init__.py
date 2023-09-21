@@ -1,0 +1,2 @@
+from SemanticShield.shield import SemanticShield
+from SemanticShield.shield_config import ShieldConfig
