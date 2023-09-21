@@ -17,5 +17,5 @@ setup(
     },
     license='MIT',
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
-    install_requires=["openai==0.28.0","langchain==0.0.287","spacy==3.6.1","Faker==19.6.1","presidio-analyzer==2.2.33","exrex==0.11.0"],
+    install_requires=["openai==0.28.0","spacy==3.6.1","Faker==19.6.1","presidio-analyzer==2.2.33","exrex==0.11.0"],
 )
