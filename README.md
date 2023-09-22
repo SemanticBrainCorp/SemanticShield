@@ -1,4 +1,4 @@
-# Semantic Shield <img src="shield/img/shield2.png" alt="drawing" width="30"/>
+# Semantic Shield <img src="SemanticShield/img/shield2.png" alt="drawing" width="30"/>
 
 Semantic Shield is a Security Toolkit for managing Generative AI(especially LLMs) and Supervised Learning inputs and outputs to protect against malicious attacks, undesirable subjects, leaks of confidential information, etc. Semantic Shield is engineered to serve three primary purposes:
 * Protecting AI Systems from Misbehaving Users
