@@ -6,7 +6,8 @@ class ConfigDefaults(object):
         "use_placeholders": False,
         "max_threshold": 0.5,
         "total_threshold": 2.0,
-        "permissive_allow": ["PERSON", "DATE_TIME", "NRP"]
+        "permissive_allow": ["PERSON", "DATE_TIME", "NRP"],
+        "error": "Please rephrase without using personal and confidential information."
     }
     topics = [
         'political'

@@ -1,4 +1,3 @@
-from SemanticShield import SemanticShield
 from SemanticShield import SemanticShield, ShieldConfig
 
 text_driver = "I live in Ontario and my driver's licence is A12345-67890-1234."
@@ -36,14 +35,12 @@ def test_ca_passport():
     assert result.pii_max == 1.0
     assert result.pii_total == 1.0
     result = shield.sanitize(text_ca_passport)
-    print(result.sanitized)
     assert result.sanitized == "my travel document is [CA_PASSPORT 0]."
 
 def test_ca_passport2():
     config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": False}})
     shield = SemanticShield(config)
     result = shield.sanitize(text_ca_passport)
-    print(result.sanitized)
     assert result.sanitized.startswith("my travel document is")
 
 def test_ca_sin():
@@ -54,7 +51,6 @@ def test_ca_sin():
     assert result.pii_max == 0.9
     assert result.pii_total == 0.9
     result = shield.sanitize(text_ca_sin)
-    print(result.sanitized)
     assert result.sanitized == "my social insurance # is [CA_SIN 0]. (TODO - match actual sin algorithm)"
 
 def test_ca_bank_acct():
@@ -65,7 +61,6 @@ def test_ca_bank_acct():
     assert result.pii_max == 1.0
     assert result.pii_total == 1.0
     result = shield.sanitize(text_ca_bank_acct)
-    print(result.sanitized)
     assert result.sanitized == "Please deposit to my checking account [CA_BANK_ACCT 0]."
 
 if __name__ == '__main__':    

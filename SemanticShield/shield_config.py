@@ -1,7 +1,6 @@
 import json
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Type
-from pprint import pprint
+from typing import Dict, List
 
 from SemanticShield.config_defaults import ConfigDefaults
 from SemanticShield.prompts import Prompts
@@ -16,18 +15,30 @@ class PIIConfig:
     permissive_allow: List[str] = field(default_factory=lambda: ConfigDefaults.pii['permissive_allow'])
     max_threshold: float = ConfigDefaults.pii['max_threshold']
     total_threshold: float = ConfigDefaults.pii['total_threshold']
+    error: str = ConfigDefaults.pii['error']
 
 @dataclass
 class ShieldConfig:
-    pii: PIIConfig = PIIConfig(**ConfigDefaults.pii)
-    jailbreak_prompt: str = Prompts.jailbreak_prompt
-    output_moderation_prompt: str = Prompts.output_moderation_prompt
-    topics: List[str] = field(default_factory=lambda: ConfigDefaults.topics)
-    topic_samples: Dict[str, str] = field(default_factory=lambda: ConfigDefaults.topic_samples)
-    topic_errors: Dict[str, str] = field(default_factory=lambda: ConfigDefaults.topic_errors)
-    topic_default_error: str = ConfigDefaults.topic_default_error
 
+    def __new__(cls):
+        self = super().__new__(cls)
+        self.pii = PIIConfig(**ConfigDefaults.pii)
+        self.jailbreak_prompt = Prompts.jailbreak_prompt
+        self.output_moderation_prompt = Prompts.output_moderation_prompt
+        self.topics = ConfigDefaults.topics
+        self.topic_samples = ConfigDefaults.topic_samples
+        self.topic_errors = ConfigDefaults.topic_errors
+        self.topic_default_error = ConfigDefaults.topic_default_error
 
+        return self
+        # self.pii = PIIConfig(**ConfigDefaults.pii)
+        # self.jailbreak_prompt = Prompts.jailbreak_prompt
+        # self.output_moderation_prompt = Prompts.output_moderation_prompt
+        # self.topics = ConfigDefaults.topics
+        # self.topic_samples = ConfigDefaults.topic_samples
+        # self.topic_errors = ConfigDefaults.topic_errors
+        # self.topic_default_error = ConfigDefaults.topic_default_error
+        
     def __repr__(self):
         return json.dumps(vars(self), sort_keys=True,indent=4, separators=(',', ': ')) 
     

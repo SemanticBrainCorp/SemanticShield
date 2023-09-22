@@ -28,6 +28,19 @@ politics = [
     "my cat likes to sleep in the sun",
 ]
 
+
+# text = "Weather is really nice, sunny and chilly"
+# shield = SemanticShield()
+# result = shield.check_topic(text, 'politics')
+# assert result.fail == False
+# assert result.usage == 55
+# text = 'was trump a good president?'
+# result = shield.check_topic(text, 'political')
+# assert result.fail == True
+# assert result.usage == 55
+# assert result.message == "I don't like to talk about politics"
+
+
 shield = SemanticShield()
 
 def test_input(text: str):
@@ -53,7 +66,10 @@ I pay my amex 371449635398431.
 Send payments to acct no 13719713158835300 at TD Bank.
 As my name is Jason Bourne, I travel the world running from Pamela Landy.
 """
-config = ShieldConfig.from_dict(({"pii": { "permissive": False}}))
+#config = ShieldConfig.from_dict(({"pii": { "permissive": False}}))
+#config = ShieldConfig(({"pii": { "permissive": False}}))
+config_str = '{"pii": {"permissive": false,"max_threshold": 1.5,"total_threshold": 7.0}}'
+config = ShieldConfig.from_string(config_str)
 shield = SemanticShield(config)
 
 result = shield(text)

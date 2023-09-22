@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch
 
-from mock_shield import MockOpenAIChatCompletion, MockOpenAIModeration, MockResponse
+from mock_shield import MockOpenAIChatCompletion, MockOpenAIModeration
 
 from SemanticShield import SemanticShield, ShieldConfig
 

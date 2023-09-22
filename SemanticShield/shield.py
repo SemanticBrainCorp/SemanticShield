@@ -21,7 +21,7 @@ LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -15s %(filename) -15s %(fun
 logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
 logging.getLogger("openai").setLevel(logging.WARNING)
 logging.getLogger("faker").setLevel(logging.WARNING)
-logging.getLogger("presidio-analyzer").setLevel(logging.WARNING)
+logging.getLogger("presidio-analyzer").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
@@ -44,7 +44,7 @@ class SemanticShield:
         #checks for jailbreaking attempts
         prompt = self.config.jailbreak_prompt.replace('##PROMPT##', prompt)
         llm_check_result = run_prompt(prompt, moderate=moderate)
-        return ShieldResult(llm_check_result.fail, "I am not able to answer the question.", usage = llm_check_result.usage)
+        return ShieldResult(llm_check_result.fail, fail_type='JAILBREAK', message="I am not able to answer the question.", usage = llm_check_result.usage)
 
     def check_output(self, response: str, moderate: bool = True)->LLMCheckResult:
         #checks for undesireable outputs
@@ -58,9 +58,13 @@ class SemanticShield:
         try:
             moderate_prompt(prompt)
         except ModerationException as ex:
-
-            return ShieldResult(True, f'Your request has been flagged by SemanticShield moderation: {", ".join(ex.flags)}')
-        return ShieldResult(False, None)
+            return ShieldResult(
+                True,
+                message = f'Your request has been flagged by SemanticShield moderation: {", ".join(ex.flags)}',
+                fail_type = 'MODERATION',
+                fail_data = ex.flags
+            )
+        return ShieldResult(False)
 
     def check_topic(self, input: str, topic: str, moderate: bool = True)->ShieldResult:
         #verify prohibited topics (by example or by allowing chatgpt to classify input)
@@ -79,7 +83,13 @@ class SemanticShield:
                 message = self.config.topic_default_error
         else:
             message = "Success"
-        return ShieldResult(result.fail, message, usage=result.usage)
+        return ShieldResult(
+            result.fail,
+            message=message,
+            fail_type='TOPIC',
+            fail_data=[topic],
+            usage=result.usage
+        )
     
     def check_topics(self, input: str, moderate: bool = True)->ShieldResult:
         #check for prohibited topics
@@ -87,7 +97,7 @@ class SemanticShield:
             result = self.check_topic(input, topic, moderate)
             if result.fail:
                 return result
-        return ShieldResult(False, None, usage=result.usage)
+        return ShieldResult(False, usage=result.usage)
     
     def check_pii_score(self, text: str) -> (float, float):
         max_score, total_score = self.pii_analyzer.score(text)
@@ -97,18 +107,18 @@ class SemanticShield:
         pii_max, pii_total = self.check_pii_score(text)
         if self.config.pii.on:
             if pii_max>self.config.pii.max_threshold or pii_total>self.config.pii.total_threshold:
-                return ShieldResult(True, 'PII present in text', pii_max=pii_max, pii_total=pii_total, usage=usage_total)
-        return ShieldResult(False, None, pii_max=pii_max, pii_total=pii_total, usage=usage_total)
+                return ShieldResult(True, fail_type='PII', message=self.config.pii.error, pii_max=pii_max, pii_total=pii_total, usage=usage_total)
+        return ShieldResult(False, pii_max=pii_max, pii_total=pii_total, usage=usage_total)
     
 
-    def do_check(self, text: str, usage_total, checker_func: Callable[[str], tuple[float, float]], moderate=True) -> (bool, ShieldResult, float):
+    def do_check(self, text: str, usage_total, checker_func: Callable[[str], ShieldResult], moderate=True) -> (bool, ShieldResult, float):
         failed = False
         result = None
         check_result = checker_func(text, moderate)
         usage_total += check_result.usage
         if check_result.fail:
             failed = True
-            result = ShieldResult(True, check_result.message, usage=usage_total)
+            result = ShieldResult(True, message=check_result.message, fail_type=check_result.fail_type, fail_data=check_result.fail_data, usage=usage_total)
         return failed, result, usage_total
     
     def __call__(self, text: str)->ShieldResult:
@@ -131,7 +141,7 @@ class SemanticShield:
         if not failed:
             failed, result, usage_total = self.do_check(text, usage_total, self.check_topics, moderate=False)
         if not failed:
-            result = ShieldResult(False, '', usage=usage_total)
+            result = ShieldResult(False, usage=usage_total)
         result.pii_max = pii_max
         result.pii_total = pii_total
 
@@ -143,7 +153,11 @@ class SemanticShield:
             raise TypeError('Incompatible argument, must be string')
 
         text, replacement_map = self.pii_analyzer.pseudo(text=text)
-        return ShieldResult(False if len(replacement_map) == 0 else True, '', sanitized=text, replacement_map=replacement_map )
+        return ShieldResult(
+            False if len(replacement_map) == 0 else True,
+            fail_type=None if len(replacement_map) == 0 else 'PII',
+            sanitized=text,
+            replacement_map=replacement_map )
 
     def revert(self, text: str, replacement_map: dict)->str:
         if not isinstance(text, str):

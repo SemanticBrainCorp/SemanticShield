@@ -79,6 +79,18 @@ def test_dict2(mock_chat, mock_moderation):
 
 @patch("openai.ChatCompletion.create", side_effect=[good_opeai, good_opeai])
 @patch("openai.Moderation.create", return_value=good_moderation)
+def test_string(mock_chat, mock_moderation):
+    config_str = '{"pii": {"permissive": false,"max_threshold": 1.5,"total_threshold": 7.0}}'
+    config = ShieldConfig.from_string(config_str)
+    shield = SemanticShield(config)
+    result = shield(text)
+    assert result.fail == False
+    assert result.pii_max == 1.0
+    assert result.pii_total == 5.55
+
+
+@patch("openai.ChatCompletion.create", side_effect=[good_opeai, good_opeai])
+@patch("openai.Moderation.create", return_value=good_moderation)
 def test_file(mock_chat, mock_moderation):
     config = ShieldConfig.from_file('tests/config.json')
     shield = SemanticShield(config)
@@ -89,4 +101,4 @@ def test_file(mock_chat, mock_moderation):
     assert result.pii_total == 3.0
 
 if __name__ == '__main__':
-    test_dict2()
+    test_dict1()

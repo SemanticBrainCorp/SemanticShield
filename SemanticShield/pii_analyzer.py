@@ -1,8 +1,6 @@
 from functools import lru_cache
-from pprint import pprint
 from typing import List
 from presidio_analyzer import AnalyzerEngine, RecognizerResult, AnalyzerEngine, RecognizerRegistry
-
 
 from SemanticShield.config_defaults import ConfigDefaults
 from SemanticShield.dummy_data import DummyData
@@ -35,6 +33,7 @@ def init_analyzer():
 class PIIAnalyzer:
     def __init__(self, config: PIIConfig=PIIConfig(**ConfigDefaults.pii) ) -> None:
         self.analyzer = init_analyzer()
+        
         self.dummy_data = DummyData(config.use_placeholders)
         self.config = config
 
