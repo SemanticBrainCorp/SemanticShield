@@ -16,6 +16,11 @@ Semantic Shield is a Security Toolkit for managing Generative AI(especially LLMs
 * **Flexible PII Detection**: Configure the PII detector in either a strict mode, which identifies all instances of PII, or a permissive mode, which allows customization of acceptable PII usage (e.g., permitting names when generating emails).
 
 
+## Semantic Shield architecture and approach
+
+* Semantic Shield offers two deployment options: integration as a library within an application or utilization as a service. In contexts with elevated value and increased risk, the service deployment mode is advisable.
+
+
 ## Developer Info
 
 * developed and tested using ```python 3.9``` and ```3.10```
