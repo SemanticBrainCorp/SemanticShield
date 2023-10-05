@@ -31,13 +31,6 @@ class ShieldConfig:
         self.topic_default_error = ConfigDefaults.topic_default_error
 
         return self
-        # self.pii = PIIConfig(**ConfigDefaults.pii)
-        # self.jailbreak_prompt = Prompts.jailbreak_prompt
-        # self.output_moderation_prompt = Prompts.output_moderation_prompt
-        # self.topics = ConfigDefaults.topics
-        # self.topic_samples = ConfigDefaults.topic_samples
-        # self.topic_errors = ConfigDefaults.topic_errors
-        # self.topic_default_error = ConfigDefaults.topic_default_error
         
     def __repr__(self):
         return json.dumps(vars(self), sort_keys=True,indent=4, separators=(',', ': ')) 

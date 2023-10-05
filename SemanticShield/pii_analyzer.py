@@ -29,10 +29,12 @@ def init_analyzer():
     registry.add_recognizer(on_health_card_recognizer)
     return AnalyzerEngine(registry=registry)
 
+analyzer_instace = init_analyzer()
 
 class PIIAnalyzer:
     def __init__(self, config: PIIConfig=PIIConfig(**ConfigDefaults.pii) ) -> None:
-        self.analyzer = init_analyzer()
+        global analyzer_instace
+        self.analyzer = analyzer_instace
         
         self.dummy_data = DummyData(config.use_placeholders)
         self.config = config

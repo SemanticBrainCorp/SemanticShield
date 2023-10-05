@@ -1,7 +1,7 @@
 import logging
 import openai
 import os
-from SemanticShield.moderation_exception import ModerationException
+from SemanticShield.errors import APIKEYException, ModerationException
 from SemanticShield.llm_result import LLMCheckResult
 
 from SemanticShield.openai_model import OpenAIModel
@@ -16,7 +16,7 @@ def init_openai_key():
     global initialized
     if not initialized:
         if 'OPENAI_API_KEY' not in os.environ:
-            raise Exception(f"OPENAI key not set")
+            raise APIKEYException(f"OPENAI key not set")
         openai.api_key = os.environ['OPENAI_API_KEY']
         initialized = True
 
@@ -46,8 +46,6 @@ def run_prompt(prompt: str, max_tokens: int = 100, temperature: float = 0.7, cha
             moderate_prompt(prompt)
         except openai.error.Timeout:
             logging.exception("OpenAI API request timed out")
-        except Exception:
-            logging.exception("OpenAI API exception")
             raise
     
     if MODEL == OpenAIModel.CHAT_GPT and chat is True:

@@ -34,6 +34,9 @@ python setup.py sdist bdist_wheel
 
 ```pip install .```
 
+```python -m spacy download en_core_web_lg```
+
+
 ## Installation and updating
 ```Distribution model TBD```
 
@@ -42,9 +45,12 @@ Download the pre-built package or build as above.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SemanticShield like below. 
 ```bash
 TODO
-pip install git+https://github.com/albertsemantic/shield
+pip install git+https://github.com/semanticbraincorp/SemanticShield
 ```
 
+## Hosting
+
+For a hosted version (REST API) see [HOSTED.md](HOSTED.md)
 
 ## Usage
 
@@ -81,6 +87,11 @@ class ShieldResult:
 ```
 
 ## PII:
+
+For a list of supported entity types see [ENTITIES.md](ENTITIES.md)
+
+
+
 <b>sanitized with dummy data</b>
 ```python
 from shield import SemanticShield, ShieldConfig

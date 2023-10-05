@@ -13,3 +13,5 @@ class CanadianCardProvider(BaseProvider):
         return exrex.getone(r'\b(\d{3}-\d{3}-\d{3})\b')
     def canada_bank_acct(self) -> str:
         return exrex.getone(r'\b(\d{5}-\d{3}-\d{7})|(\d{9})\b')
+    def canada_phone_number(self) -> str:
+        return exrex.getone(r'\b\(\d{3}\)-\d{3}-\d{4}\b')

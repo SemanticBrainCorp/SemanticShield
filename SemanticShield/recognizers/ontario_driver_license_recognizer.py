@@ -13,7 +13,7 @@ class OntarioLicenseRecognizer(PatternRecognizer):
     """
 
     PATTERNS = [
-        Pattern("Ontario Driver License", r"\b[A-Z](?:\d[- ]*){14}\b", 0.9,),
+        Pattern("Ontario Driver License", r"\b[A-Z][\d]{5}[- ][\d]{5}[- ][\d]{4}\b", 0.9,),
     ]
 
     CONTEXT = [

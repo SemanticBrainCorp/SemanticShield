@@ -1,10 +1,13 @@
 from typing import List, Optional
+import SemanticShield.recognizers.luhn as luhn
 
 from presidio_analyzer import Pattern, PatternRecognizer
 
 class OntarioHealthCardRecognizer(PatternRecognizer):
     """
     Recognizes Ontario health card using regex.
+    TEMPORARY solution, to disambiguate from other similar patterns we should use a validator
+    https://en.wikipedia.org/wiki/Luhn_algorithm - crypto_recognizer is a sample of regex + validation algo
 
     :param patterns: List of patterns to be used by this recognizer
     :param context: List of context words to increase confidence in detection
@@ -38,3 +41,6 @@ class OntarioHealthCardRecognizer(PatternRecognizer):
             context=context,
             supported_language=supported_language,
         )
+
+    def validate_result(self, pattern_text: str) -> bool:  # noqa D102
+        luhn.validate(pattern_text)

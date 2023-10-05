@@ -10,3 +10,7 @@ class ModerationException(http.client.HTTPException):
         self.flags = flags
         self.description = description
         super().__init__(self.description)
+
+class APIKEYException(Exception):
+    """Exception raised when OpenAI key is missing."""
+    pass

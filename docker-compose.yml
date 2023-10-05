@@ -1,0 +1,15 @@
+version: '3'
+services:
+
+  semanticshield:
+    image: semanticshield:0.1.0
+    container_name: semanticshield
+    logging:
+      driver: "local"
+      options:
+        max-file: "5"
+        max-size: 10m
+    ports: 
+      - "8061:8061"
+    environment:
+      - OPENAI_API_KEY
