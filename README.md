@@ -25,7 +25,7 @@ Three principles driving architecture and approach are
 * Shift Left security
 * Combining proven security best practices with AI innovation
 
-Learn more [here](https://www.semanticbrain.net/post/semantic-shield-unleashed-open-source-initiative-for-ai-risk-mitigation)
+[Learn more here](https://www.semanticbrain.net/post/semantic-shield-unleashed-open-source-initiative-for-ai-risk-mitigation)
 
 ![Semantic Brain Vision pptx (6)](https://github.com/SemanticBrainCorp/SemanticShield/assets/1478133/bda4b456-6250-40fa-81f1-1782a47f8534)
 
