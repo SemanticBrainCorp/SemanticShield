@@ -16,10 +16,16 @@ Semantic Shield is a Security Toolkit for managing Generative AI(especially LLMs
 * **Flexible PII Detection**: Configure the PII detector in either a strict mode, which identifies all instances of PII, or a permissive mode, which allows customization of acceptable PII usage (e.g., permitting names when generating emails).
 
 
-## Semantic Shield architecture and approach
+## Semantic Shield architecture and approach:
 
-* Semantic Shield offers two deployment options: integration as a library within an application or utilization as a service. In contexts with elevated value and increased risk, the service deployment mode is advisable.
+Semantic Shield offers two deployment options: integration as a library within an application or utilization as a service. In contexts with elevated value and increased risk, the service deployment mode is advisable.
 
+Three principles driving architecture and approach are
+* Network DMZ-Inspired Architecture
+* Shift Left security
+* Combining proven security best practices with AI innovation
+
+![Semantic Brain Vision pptx (6)](https://github.com/SemanticBrainCorp/SemanticShield/assets/1478133/bda4b456-6250-40fa-81f1-1782a47f8534)
 
 ## Developer Info
 
