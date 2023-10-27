@@ -49,13 +49,13 @@ def test_default(mock_chat, mock_moderation):
 
 @patch("openai.ChatCompletion.create", side_effect=[good_opeai, good_opeai])
 @patch("openai.Moderation.create", return_value=good_moderation)
-def test_dict1(mock_chat, mock_moderation):
-    config_dict = {
-        "pii": {
-            "permissive": False,
-        }
-    }
-    config = ShieldConfig.from_dict(config_dict)
+def test_yaml1(mock_chat, mock_moderation):
+    config_yaml = """
+        pii:
+            permissive: False
+    """
+
+    config = ShieldConfig.from_yaml(config_yaml)
     shield = SemanticShield(config)
     result = shield(text)
     assert result.fail == True
@@ -64,26 +64,15 @@ def test_dict1(mock_chat, mock_moderation):
 
 @patch("openai.ChatCompletion.create", side_effect=[good_opeai, good_opeai])
 @patch("openai.Moderation.create", return_value=good_moderation)
-def test_dict2(mock_chat, mock_moderation):
-    config_dict = {
-        "pii": {
-            "permissive": False,
-            "max_threshold": 1.5,
-            "total_threshold": 7.0,
-        }
-    }
-    config = ShieldConfig.from_dict(config_dict)
-    shield = SemanticShield(config)
-    result = shield(text)
-    assert result.fail == False
-    assert result.pii_max == approx(1.0)
-    assert result.pii_total == approx(5.55)
+def test_yaml2(mock_chat, mock_moderation):
+    config_yaml = """
+        pii:
+            permissive: False
+            max_threshold: 1.5
+            total_threshold: 7.0
+    """
 
-@patch("openai.ChatCompletion.create", side_effect=[good_opeai, good_opeai])
-@patch("openai.Moderation.create", return_value=good_moderation)
-def test_string(mock_chat, mock_moderation):
-    config_str = '{"pii": {"permissive": false,"max_threshold": 1.5,"total_threshold": 7.0}}'
-    config = ShieldConfig.from_string(config_str)
+    config = ShieldConfig.from_yaml(config_yaml)
     shield = SemanticShield(config)
     result = shield(text)
     assert result.fail == False
@@ -94,7 +83,7 @@ def test_string(mock_chat, mock_moderation):
 @patch("openai.ChatCompletion.create", side_effect=[good_opeai, good_opeai])
 @patch("openai.Moderation.create", return_value=good_moderation)
 def test_file(mock_chat, mock_moderation):
-    config = ShieldConfig.from_file('tests/config.json')
+    config = ShieldConfig.from_yaml_file('tests/config.yml')
     shield = SemanticShield(config)
 
     result = shield(text)
@@ -103,4 +92,4 @@ def test_file(mock_chat, mock_moderation):
     assert result.pii_total == approx(3.0)
 
 if __name__ == '__main__':
-    test_dict1()
+    test_file()

@@ -1,4 +1,7 @@
 import json
+import yaml
+from yaml.resolver import Resolver
+
 from dataclasses import dataclass, field
 from typing import Dict, List
 
@@ -6,6 +9,14 @@ from SemanticShield.config_defaults import ConfigDefaults
 from SemanticShield.prompts import Prompts
 
 #TODO - add address regognizer - e.g. https://huggingface.co/spaces/omri374/presidio/blob/main/transformers_recognizer.py
+
+# remove yaml resolver entries for On/Off
+for ch in "Oo":
+    if len(Resolver.yaml_implicit_resolvers[ch]) == 1:
+        del Resolver.yaml_implicit_resolvers[ch]
+    else:
+        Resolver.yaml_implicit_resolvers[ch] = [x for x in
+                Resolver.yaml_implicit_resolvers[ch] if x[0] != 'tag:yaml.org,2002:bool']
 
 @dataclass
 class PIIConfig:
@@ -51,10 +62,21 @@ class ShieldConfig:
     @classmethod
     def from_string(cls, string: str) -> "ShieldConfig":
         obj = json.loads(string)
-        return ShieldConfig.from_dict(obj)
+        return cls.from_dict(obj)
 
     @classmethod
     def from_file(cls, file_path: str) -> "ShieldConfig":
         with open(file_path, "r") as f:
             text = f.read()
         return cls.from_string(text)
+
+    @classmethod
+    def from_yaml(cls, string: str) -> "ShieldConfig":
+        obj = yaml.safe_load(string)
+        return cls.from_dict(obj)
+
+    @classmethod
+    def from_yaml_file(cls, file_path: str) -> "ShieldConfig":
+        with open(file_path, "r") as f:
+            obj = yaml.safe_load(f)
+        return cls.from_dict(obj)

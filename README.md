@@ -65,9 +65,30 @@ pip install git+https://github.com/semanticbraincorp/SemanticShield
 
 For a hosted version (REST API) see [HOSTED.md](HOSTED.md)
 
+
+## Configuration
+
+Semantic Shield can be configured using Python dictionaries, YAML or JSON strings or files
+
+See [tests](tests) for usage example
+
+Constructors:
+
+> Python dict ShieldConfig.from_dict()
+
+> JSON string ShieldConfig.from_string()
+
+> JSON file ShieldConfig.from_file()
+
+> YAML string ShieldConfig.from_yaml()
+
+> YAML file ShieldConfig.from_yaml_file()
+
+
+
 ## Usage
 
-see [tests](tests) for usage example
+See [tests](tests) for usage example
 
 ```python
 shield = SemanticShield()

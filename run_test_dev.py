@@ -1,4 +1,6 @@
 from pprint import pprint
+import yaml
+from yaml.resolver import Resolver
 
 from SemanticShield import SemanticShield, ShieldConfig
 from SemanticShield.fakers.canadian_card_provider import CanadianCardProvider
@@ -87,6 +89,13 @@ config = ShieldConfig.from_dict(({"pii": {"use_placeholders": True, "permissive"
 shield = SemanticShield(config)
 result = shield.sanitize(text)
 print(result.sanitized)
+
+##yaml
+config = ShieldConfig.from_yaml_file('tests/config.yml')
+shield = SemanticShield(config)
+
+result = shield(text)
+pprint(result)
 
 
 config = ShieldConfig.from_dict({'pii':{'permissive': True}})

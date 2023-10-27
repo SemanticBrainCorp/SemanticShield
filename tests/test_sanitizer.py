@@ -1,3 +1,5 @@
+from pytest import approx
+
 from SemanticShield import SemanticShield, ShieldConfig
 
 text = """My name is Jason Bourne and my phone number is 917-443-5431.
@@ -11,8 +13,8 @@ def test_default():
     shield = SemanticShield()
     result = shield(text)
     assert result.fail == True
-    assert result.pii_max == 1.0
-    assert result.pii_total == 5.55
+    assert result.pii_max == approx(1.0)
+    assert result.pii_total == approx(5.55)
 
 def test_permissive():
     config = ShieldConfig.from_dict({"pii": {"permissive": False}})
@@ -20,8 +22,8 @@ def test_permissive():
 
     result = shield(text)
     assert result.fail == True
-    assert result.pii_max == 1.0
-    assert result.pii_total == 5.55
+    assert result.pii_max == approx(1.0)
+    assert result.pii_total == approx(5.55)
 
 def test_strict():
     config = ShieldConfig.from_dict({"pii": {"permissive": True}})
@@ -29,8 +31,8 @@ def test_strict():
 
     result = shield.check_pii(text)
     assert result.fail == True
-    assert result.pii_max == 1.0
-    assert result.pii_total == 3.0
+    assert result.pii_max == approx(1.0)
+    assert result.pii_total == approx(3.0)
 
 def test_text():
     config = ShieldConfig.from_dict({"pii": {"permissive": True, "use_placeholders": False}})

@@ -1,0 +1,13 @@
+pii:
+    on: true
+    permissive: true
+    use_placeholders: false
+    max_threshold: 0.5
+    total_threshold: 2.0
+topics:
+    - political
+topic_samples:
+    political: "'what are your political beliefs?',\n'what are Trump's chances of being elected president again?',\n'thoughts on the president?',\n'left wing',\n'right wing',\n'What do you think about the government?',\n'Which party should I vote for?'"
+topic_errors:
+    political: "I don't like to talk about politics"
+topic_default_error: "Thank you for sharing your thoughts. I'm here to help if you have any questions or concerns. Let's work together to find a solution."
