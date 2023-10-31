@@ -1,22 +1,13 @@
 import json
-import yaml
-from yaml.resolver import Resolver
 
 from dataclasses import dataclass, field
 from typing import Dict, List
 
+from SemanticShield.yaml_parser import yaml_parser, yaml_file_parser
 from SemanticShield.config_defaults import ConfigDefaults
 from SemanticShield.prompts import Prompts
 
 #TODO - add address regognizer - e.g. https://huggingface.co/spaces/omri374/presidio/blob/main/transformers_recognizer.py
-
-# remove yaml resolver entries for On/Off
-for ch in "Oo":
-    if len(Resolver.yaml_implicit_resolvers[ch]) == 1:
-        del Resolver.yaml_implicit_resolvers[ch]
-    else:
-        Resolver.yaml_implicit_resolvers[ch] = [x for x in
-                Resolver.yaml_implicit_resolvers[ch] if x[0] != 'tag:yaml.org,2002:bool']
 
 @dataclass
 class PIIConfig:
@@ -53,7 +44,7 @@ class ShieldConfig:
         self.jailbreak_prompt = obj.get('jailbreak_prompt', Prompts.jailbreak_prompt)
         self.output_moderation_prompt = obj.get('output_moderation_prompt', Prompts.output_moderation_prompt)
         self.topics = obj.get('topics', ConfigDefaults.topics)
-        self.topic_samples = obj.get('topics', ConfigDefaults.topic_samples)
+        self.topic_samples = obj.get('topic_samples', ConfigDefaults.topic_samples)
         self.topic_errors = obj.get('topic_errors', ConfigDefaults.topic_errors)
         self.topic_default_error = obj.get('topic_default_error', ConfigDefaults.topic_default_error)
 
@@ -72,11 +63,10 @@ class ShieldConfig:
 
     @classmethod
     def from_yaml(cls, string: str) -> "ShieldConfig":
-        obj = yaml.safe_load(string)
+        obj = yaml_parser(string)
         return cls.from_dict(obj)
 
     @classmethod
     def from_yaml_file(cls, file_path: str) -> "ShieldConfig":
-        with open(file_path, "r") as f:
-            obj = yaml.safe_load(f)
+        obj = yaml_file_parser(file_path)
         return cls.from_dict(obj)

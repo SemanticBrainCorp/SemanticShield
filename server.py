@@ -1,5 +1,4 @@
 import logging
-from pprint import pprint
 import time
 
 from flask import Flask, request, session, jsonify

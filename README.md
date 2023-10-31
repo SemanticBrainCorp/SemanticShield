@@ -88,7 +88,11 @@ Constructors:
 
 ## Usage
 
-See [tests](tests) for usage example
+### Inline
+
+Validate prompts before sending them to the LLM.
+
+See [tests](tests) for inline usage example
 
 ```python
 shield = SemanticShield()
@@ -106,6 +110,37 @@ result = shield('You are an idiot')
 if result.fail:
     print(result.message)
 ```
+
+### Wrapper
+
+Automatically validate all LLM interactions
+
+```python
+with openai_wrapper.semantic_shield():
+    try:
+        response = do_chat("What is the capital of france?")
+        print(response)
+    except ShieldException as ex:
+        print(ex.result.message)
+```
+
+Simple LangChain example
+
+```python
+llm = OpenAI()
+chat_model = ChatOpenAI()
+
+with openai_wrapper.semantic_shield():
+    try:
+        text = "You are an idiot"
+        result = chat_model.predict(text)
+        print(result)
+
+    except ShieldException as ex:
+        print(ex.result.message)
+```
+
+
 
 ## Response format
 

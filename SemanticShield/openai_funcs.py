@@ -38,7 +38,7 @@ def standardize_result(result: str) -> bool:
     result = result.lower().replace('.','')
     return result == 'yes'
 
-def run_prompt(prompt: str, max_tokens: int = 100, temperature: float = 0.7, chat: bool =True, moderate: bool = True) -> LLMCheckResult:
+def run_prompt(prompt: str, max_tokens: int = 100, temperature: float = 0.7, chat: bool =True, moderate: bool = True, backup_create=None, backup_chat_create=None) -> LLMCheckResult:
     init_openai_key()
     #run a validation prompt, respond with pass/fail and token usage
     if moderate:
@@ -49,7 +49,10 @@ def run_prompt(prompt: str, max_tokens: int = 100, temperature: float = 0.7, cha
             raise
     
     if MODEL == OpenAIModel.CHAT_GPT and chat is True:
-        response = openai.ChatCompletion.create(
+        func = openai.ChatCompletion.create
+        if backup_chat_create:
+            func = backup_chat_create
+        response = func(
             model=CHAT_ENGINE,
             temperature=temperature,
             messages=[{
@@ -59,7 +62,10 @@ def run_prompt(prompt: str, max_tokens: int = 100, temperature: float = 0.7, cha
         usage = response['usage']['total_tokens']
         result = response['choices'][0]['message']['content']
     else:
-        response = openai.Completion.create(
+        func = openai.Completion.create
+        if backup_create:
+            func = backup_create
+        response = func(
             engine=ENGINE,
             prompt=prompt,
             temperature=temperature,

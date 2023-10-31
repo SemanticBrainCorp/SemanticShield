@@ -1,0 +1,7 @@
+---
+pii:
+  permissive: 'true'
+  permissive_allow:
+  - LOCATION
+  - DATE_TIME
+  - NRP

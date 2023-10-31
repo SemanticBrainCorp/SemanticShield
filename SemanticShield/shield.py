@@ -36,20 +36,24 @@ class SemanticShield:
     def __init__(
         self,
         config: Optional[ShieldConfig] = ShieldConfig(),
+        backup_create: Optional[any] = None,
+        backup_chat_create: Optional[any] = None
     ):
         self.config = config
         self.pii_analyzer = PIIAnalyzer(config.pii)
+        self.backup_create = backup_create
+        self.backup_chat_create = backup_chat_create
 
     def check_jailbreak(self, prompt: str, moderate: bool = True)->ShieldResult:
         #checks for jailbreaking attempts
         prompt = self.config.jailbreak_prompt.replace('##PROMPT##', prompt)
-        llm_check_result = run_prompt(prompt, moderate=moderate)
+        llm_check_result = run_prompt(prompt, moderate=moderate, backup_create=self.backup_create, backup_chat_create=self.backup_chat_create)
         return ShieldResult(llm_check_result.fail, fail_type='JAILBREAK', message="I am not able to answer the question.", usage = llm_check_result.usage)
 
     def check_output(self, response: str, moderate: bool = True)->LLMCheckResult:
         #checks for undesireable outputs
         prompt = self.output_moderation_prompt.replace('##RESPONSE##', response)
-        llm_check_result = run_prompt(prompt, moderate=moderate)
+        llm_check_result = run_prompt(prompt, moderate=moderate, backup_create=self.backup_create, backup_chat_create=self.backup_chat_create)
         return llm_check_result
 
     def check_prompt_moderation(self, prompt: str, _=True)->ShieldResult:
@@ -75,7 +79,7 @@ class SemanticShield:
         prompt = prompt.replace('##TOPIC##', topic)
         prompt = prompt.replace('##INPUT##', input)
         
-        result = run_prompt(prompt, moderate=moderate)
+        result = run_prompt(prompt, moderate=moderate, backup_create=self.backup_create, backup_chat_create=self.backup_chat_create)
         if result.fail:
             if topic in self.config.topic_errors:
                 message = self.config.topic_errors[topic]
