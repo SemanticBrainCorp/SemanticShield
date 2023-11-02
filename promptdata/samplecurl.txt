@@ -1,0 +1,18 @@
+# The following curl commands can be used to test Role Based Content Generation and Output Moderation
+# URL and port numbers need to be modified to match your setup
+# Additional roles can be added or existing roles can be modified by changing the config_defaults.yml file
+
+curl -X POST http://localhost:8061/shield/v1/generate \
+-H 'Content-Type: application/json' \
+-d '{"role":"sales",
+"text":"Say hi to Bob. State that like to connect with other startup executives. We both are interested in AI and have 58 mutual connections"}' | jq
+
+curl -X POST http://localhost:8061/shield/v1/generate \
+-H 'Content-Type: application/json' \
+-d '{"role": "sales2",
+"text":"Say hi to Alice. Introduce me as a AI Security specialist. State that it was a pleasure meeting you at the Big Data & AI conference. I saw in your annual report that DevSecOps is a high priority for your company. Think as CISO may she interested in seeing a demo of Semantic Security"}' | jq
+
+curl -X POST http://localhost:8061/shield/v1/generate \
+-H 'Content-Type: application/json' \
+-d '{"role": "leadgen",
+"text":"Say hi to Bob. State that like to connect with other startup executives. We both are interested in AI and have 58 mutual connections."}' | jq
