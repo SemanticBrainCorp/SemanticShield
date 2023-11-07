@@ -31,14 +31,14 @@ role:
     - sales:
         - system_content: "promptdata/sales.txt"
         - text_length:
-            - min_len: 400
-            - max_len: 600
+            - min_len: 500
+            - max_len: 700
         - language_filter: on
         - fail_action: retry
     - sales2:
         - system_content: "promptdata/sales2.txt"
         - text_length:
-            - min_len: 400
-            - max_len: 600
+            - min_len: 500
+            - max_len: 700
         - language_filter: on
         - fail_action: retry

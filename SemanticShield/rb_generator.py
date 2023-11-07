@@ -17,8 +17,8 @@ def init_openai_key():
         guard_openai_initialized = True
 
 def generate_for_role(role_config_df, role, user_content):
-    system_content = "You are a marketing communication specialist, skilled at helping sales people effectively communicate with their customers.\
-        You generate email messages between 400 to 600 characters in length, and this includes a subject."
+    system_content = "You are a communication specialist, skilled at helping generate marketing, sales, support and other content.\
+        You generate content between 400 to 600 characters in length"
 
     index = role_config_df[role_config_df['role'] == role].index[0]
 
@@ -32,15 +32,15 @@ def generate_for_role(role_config_df, role, user_content):
     suffix = " You generate messages between {} and {} characters in length.".format(role_config_df.iloc[index]['min_len'], role_config_df.iloc[index]['max_len'])
     system_content = prefix + key_instruction + suffix
 
-    class SalesMessage(BaseModel):
+    class GenerateMessage(BaseModel):
         role: str = Field(description="Is an assistant")
         content: str = Field(
-            description="Is either a connection request on LinkedIn or email message requesting a call to action.",
+            description="Is content created to help marketing, sales and support staff communicate with customers or prospects",
             validators=[ValidLength(min=role_config_df.iloc[index]['min_len'], max=role_config_df.iloc[index]['max_len'], on_fail='reask')]
         )
 
     # From pydantic:
-    guard = gd.Guard.from_pydantic(output_class=SalesMessage, instructions=system_content, prompt=user_content)
+    guard = gd.Guard.from_pydantic(output_class=GenerateMessage, instructions=system_content, prompt=user_content)
 
     # Wrap the OpenAI API call with the `guard` object
     raw_llm_output, validated_output = guard(
