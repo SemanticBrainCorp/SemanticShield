@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='SemanticShield',
-    version='0.0.1',
+    version='0.1.1',
     author='SemanticBrain',
     author_email='albert.r@semanticbrain.net',
     description='SemanticShield library',

@@ -36,7 +36,7 @@ class PIIAnalyzer:
         global analyzer_instace
         self.analyzer = analyzer_instace
         
-        self.dummy_data = DummyData(config.use_placeholders)
+        self.dummy_data = DummyData(config.operation, config.redact_string)
         self.config = config
 
     def filter_permissive(self, result_list: List[RecognizerResult]) -> List[RecognizerResult]:

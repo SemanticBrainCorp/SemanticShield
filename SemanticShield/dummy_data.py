@@ -2,17 +2,19 @@ from faker import Faker
 from SemanticShield.fakers.canadian_card_provider import CanadianCardProvider
 
 class DummyData:
-    def __init__(self, use_placeholders = False) -> None:
-        #use_placeholders
-        #   True = replace with placeholder string
-        #   Flase = replace with dummy data
-        self.use_placeholders = use_placeholders
+    def __init__(self, operation='maks', redact_string='_') -> None:
+        #operation
+        #   tokenize = replace with token
+        #   maks = replace with inauthentic data with the same structure
+        #   redact = remove PII, replace with fixed string (default '_')
+        self.operation = operation
+        self.redact_string = redact_string
         self.fake = Faker()
         self.fake.add_provider(CanadianCardProvider)
 
         self.index = 0
 
-    def gen_fake_data_placeholder(self, kind: str):
+    def gen_fake_data_tokenize(self, kind: str):
         dummy = f'[{kind} {self.index}]'
         self.index += 1
         return dummy
@@ -52,7 +54,9 @@ class DummyData:
         return dummy
 
     def gen_fake_data(self, kind: str):
-        if self.use_placeholders:
-            return self.gen_fake_data_placeholder(kind)
+        if self.operation == 'tokenize':
+            return self.gen_fake_data_tokenize(kind)
+        elif self.operation == 'redact':
+            return self.redact_string
         else:
             return self.gen_fake_data_dummy(kind)

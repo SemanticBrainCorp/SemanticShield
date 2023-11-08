@@ -98,7 +98,7 @@ curl -X POST http://localhost:8061/shield/v1/revert \
 ```
 curl -X POST http://localhost:8061/shield/v1/sanitize \
 -H 'Content-Type: application/json' \
--d '{"text":"My name is Jason Bourne", "config": {"pii": {"use_placeholders": true, "permissive": false}}}'
+-d '{"text":"My name is Jason Bourne", "config": {"pii": {"operation": "tokenize", "permissive": false}}}'
 ```
 
 ## Response format
