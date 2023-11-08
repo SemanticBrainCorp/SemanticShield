@@ -35,18 +35,32 @@ def test_strict():
     assert result.pii_total == approx(3.0)
 
 def test_text():
-    config = ShieldConfig.from_dict({"pii": {"permissive": True, "use_placeholders": False}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": True, "operation": 'mask'}})
     shield = SemanticShield(config)
     result = shield.sanitize(text)
     assert result.fail == True
     assert result.sanitized.startswith("My name is Jason Bourne and my phone number is") == True
 
-def test_use_placeholders():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": True}})
+def test_use_tokens():
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": 'tokenize'}})
     shield = SemanticShield(config)
     result = shield.sanitize(text)
     assert result.fail == True
     assert result.sanitized.startswith("My name is [PERSON 1] and my phone number is [PHONE_NUMBER 5].") == True
+
+def test_redact_default():
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": 'redact'}})
+    shield = SemanticShield(config)
+    result = shield.sanitize(text)
+    assert result.fail == True
+    assert result.sanitized.startswith("My name is _ and my phone number is _.") == True
+
+def test_redact_custom():
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": 'redact', "redact_string": '{}'}})
+    shield = SemanticShield(config)
+    result = shield.sanitize(text)
+    assert result.fail == True
+    assert result.sanitized.startswith("My name is {} and my phone number is {}.") == True
 
 if __name__ == '__main__':
     test_default()
