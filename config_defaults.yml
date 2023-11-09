@@ -2,7 +2,8 @@
 pii:
   'on': True
   permissive: False
-  use_placeholders: False
+  operation: mask
+  redact_string: _
   max_threshold: 0.5
   total_threshold: 2
   permissive_allow:

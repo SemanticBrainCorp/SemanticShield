@@ -17,7 +17,7 @@ Semantic Shield represents an open-source initiative focused on AI security, saf
 * **Content Moderation**: Reject content that involves harassment, hate speech, threats, violence, sexual content, or self-harm.
 * **Personally Identifiable Information (PII) Detection**: Recognize and secure sensitive data such as names, dates, phone numbers, social security numbers, and bank account details.
 * **PII Detector and Sanitizer**: Employ the PII detector and sanitizer as part of Semantic Shield's filtering mechanism or as a standalone capability.
-* **Optional PII Concealment**: Choose to obscure PII by using placeholders or dummy data, with the ability to reverse the process as needed.
+* **Optional PII Concealment**: Choose to obscure PII by using tokens or dummy data, with the ability to reverse the process as needed.
 * **Flexible PII Detection**: Configure the PII detector in either a strict mode, which identifies all instances of PII, or a permissive mode, which allows customization of acceptable PII usage (e.g., permitting names when generating emails).
 
 
@@ -167,9 +167,14 @@ class ShieldResult:
 
 For a list of supported entity types see [ENTITIES.md](ENTITIES.md)
 
+Text can be sanitized using the following operations:
+
+- tokenize = replace with token
+- maks = replace with inauthentic data with the same structure
+- redact = remove PII, replace with fixed string (default '_'). Redaction is irreversible.
 
 
-<b>sanitized with dummy data</b>
+<b>sanitized with mask (inauthentic data with the same structure)</b>
 ```python
 from shield import SemanticShield, ShieldConfig
 
@@ -202,9 +207,9 @@ Send payments to acct no 13719713158835300 at TD Bank.
 As my name is Jason Bourne, I travel the world running from Pamela Landy.
 ```
 
-<b>sanitized with placeholders</b>
+<b>sanitized with tokens</b>
 ```python
-config = ShieldConfig.from_dict(({"pii": {"use_placeholders": True, "permissive": False}}))
+config = ShieldConfig.from_dict(({"pii": {"operation": "tokenize", "permissive": False}}))
 shield = SemanticShield(config)
 result = shield.sanitize(text)
 print(result.sanitized)
@@ -226,4 +231,21 @@ My social security number is 778-62-8144.
 I pay my amex 371449635398431.
 Send payments to acct no 13719713158835300 at TD Bank.
 As my name is Jason Bourne, I travel the world running from Pamela Landy.
+```
+
+
+<b>sanitized by redaction (irreversible)</b>
+```python
+config = ShieldConfig.from_dict(({"pii": {"operation": "redact", "permissive": False}}))
+shield = SemanticShield(config)
+result = shield.sanitize(text)
+print(result.sanitized)
+```
+
+```
+My name is _ and my phone number is _.
+My social security number is _.
+I pay my amex _.
+Send payments to acct no _ at TD Bank.
+As my name is _, I travel the world running from _.
 ```

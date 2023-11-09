@@ -10,7 +10,7 @@ text_ca_sin = "my social insurance # is 123-123-123. (TODO - match actual sin al
 
 
 def test_driver():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": True}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": "tokenize"}})
     shield = SemanticShield(config)
     result = shield(text_driver)
     assert result.fail == True
@@ -20,7 +20,7 @@ def test_driver():
     assert result.sanitized == "I live in [LOCATION 1] and my driver's licence is [ON_DRIVER_LICENSE 0]."
     
 def test_ohip():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": True}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": "tokenize"}})
     shield = SemanticShield(config)
     result = shield(text_ohip)
     assert result.fail == True
@@ -30,7 +30,7 @@ def test_ohip():
     assert result.sanitized == "my OHIP card is [OHIP_CARD 0]."
 
 def test_ca_passport():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": True}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": "tokenize"}})
     shield = SemanticShield(config)
     result = shield(text_ca_passport)
     assert result.fail == True
@@ -40,13 +40,13 @@ def test_ca_passport():
     assert result.sanitized == "my travel document is [CA_PASSPORT 0]."
 
 def test_ca_passport2():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": False}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": "tokenize"}})
     shield = SemanticShield(config)
     result = shield.sanitize(text_ca_passport)
     assert result.sanitized.startswith("my travel document is")
 
 def test_ca_sin():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": True}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": "tokenize"}})
     shield = SemanticShield(config)
     result = shield(text_ca_sin)
     assert result.fail == True
@@ -56,7 +56,7 @@ def test_ca_sin():
     assert result.sanitized == "my social insurance # is [CA_SIN 0]. (TODO - match actual sin algorithm)"
 
 def test_ca_bank_acct():
-    config = ShieldConfig.from_dict({"pii": {"permissive": False, "use_placeholders": True}})
+    config = ShieldConfig.from_dict({"pii": {"permissive": False, "operation": "tokenize"}})
     shield = SemanticShield(config)
     result = shield(text_ca_bank_acct)
     assert result.fail == True

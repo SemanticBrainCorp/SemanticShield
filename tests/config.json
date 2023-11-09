@@ -2,7 +2,8 @@
     "pii": {
         "on": "true",
         "permissive": "true",
-        "use_placeholders": "false",
+        "operation": "mask",
+        "redact_string": "_",
         "max_threshold": 0.5,
         "total_threshold": 2.0
     },

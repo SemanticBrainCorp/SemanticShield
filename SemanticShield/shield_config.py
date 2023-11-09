@@ -12,7 +12,8 @@ from SemanticShield.prompts import Prompts
 @dataclass
 class PIIConfig:
     on: bool = ConfigDefaults.pii['on']
-    use_placeholders: bool = ConfigDefaults.pii['use_placeholders']
+    operation: str = ConfigDefaults.pii['operation']
+    redact_string: str = ConfigDefaults.pii['redact_string']
     permissive: bool = ConfigDefaults.pii['permissive']
     permissive_allow: List[str] = field(default_factory=lambda: ConfigDefaults.pii['permissive_allow'])
     max_threshold: float = ConfigDefaults.pii['max_threshold']
