@@ -5,6 +5,11 @@ Semantic Shield is a Security Toolkit for managing Generative AI(especially LLMs
 * Safeguarding Users from AI Misbehavior
 * Mitigating the Risk of Confidential/Sensitive Data Leaks
 
+## NOTE
+Semantic Shield represents an open-source initiative focused on AI security, safety, and alignment. Within this initiative, we have established a new direction to bring Semantic Shield in alignment with the best practices and tools of DevSecOps. This entails optimizing our efforts by:
+1) Introducing identity/role-based access controls for AI services and resources 
+2) Implementing output validation and recovery mechanisms as needed based on identity/role
+3) Empowering DevSecOps personnel to effortlessly utilize and tailor Semantic Shield through the straightforward configuration of YAML files
 
 ## Semantic Shield encompasses the following functionalities:
 * **Topic Moderation**: Define and enforce restrictions on certain topics (e.g., politics) that should be avoided in AI interactions.

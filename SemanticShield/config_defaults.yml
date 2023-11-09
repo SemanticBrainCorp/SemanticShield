@@ -19,3 +19,27 @@ topic_errors:
   political: I don't like to talk about politics
 topic_default_error: Thank you for sharing your thoughts. I'm here to help if you
   have any questions or concerns. Let's work together to find a solution.
+
+#Role based services
+role: 
+    - leadgen:
+        - system_content: "leadgen.txt"
+        - text_length:
+            - min_len: 150
+            - max_len: 300
+        - language_filter: on
+        - fail_action: retry
+    - sales:
+        - system_content: "sales.txt"
+        - text_length:
+            - min_len: 400
+            - max_len: 600
+        - language_filter: on
+        - fail_action: retry
+    - sales2:
+        - system_content: "sales2.txt"
+        - text_length:
+            - min_len: 400
+            - max_len: 600
+        - language_filter: on
+        - fail_action: retry
