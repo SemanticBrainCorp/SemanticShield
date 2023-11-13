@@ -1,4 +1,4 @@
-# Semantic Shield <img src="SemanticShield/img/shield2.png" alt="drawing" width="30"/>
+# Semantic Shield <img src="https://raw.githubusercontent.com/SemanticBrainCorp/SemanticShield/main/SemanticShield/img/shield2.png" alt="Semantic Shield Logo" width="30"/>
 
 Semantic Shield is a Security Toolkit for managing Generative AI(especially LLMs) and Supervised Learning inputs and outputs to protect against malicious attacks, undesirable subjects, leaks of confidential information, etc. Semantic Shield is engineered to serve three primary purposes:
 * Protecting AI Systems from Misbehaving Users
@@ -34,16 +34,25 @@ Three principles driving architecture and approach are
 
 ![Semantic Brain Vision pptx (6)](https://github.com/SemanticBrainCorp/SemanticShield/assets/1478133/bda4b456-6250-40fa-81f1-1782a47f8534)
 
+
+## Installation
+
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SemanticShield like below. 
+```bash
+pip install SemanticShield==0.1.5
+```
+
 ## Developer Info
 
 * developed and tested using ```python 3.9``` and ```3.10```
 * create a virtual environment using `requirements.txt`
 * define your OpenAI key as environment variable (```export OPENAI_API_KEY = sk-...```) or create a ```.env``` file (Visual Studio Code) (```OPENAI_API_KEY = sk-...```)
 
-* code is in the `shield` folder
+* code is in the `SemanticShield` folder
 * see [tests](tests) for usage example
 
-## Build
+## Build and test
 
 To build and test you additionally need the dependencies in `requirements-dev.txt`
 
@@ -57,17 +66,6 @@ python setup.py sdist bdist_wheel
 
 ```python -m spacy download en_core_web_lg```
 
-
-## Installation and updating
-```Distribution model TBD```
-
-Download the pre-built package or build as above.
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SemanticShield like below. 
-```bash
-TODO
-pip install git+https://github.com/semanticbraincorp/SemanticShield
-```
 
 ## Hosting
 
@@ -193,6 +191,7 @@ reverted = shield.revert(result.sanitized, result.replacement_map)
 print(reverted)
 ```
 
+<b>sanitized and reverted output</b>
 ```
 My name is Jennifer Herrera and my phone number is 237.632.4508.
 My social security number is 333-21-7388.
@@ -218,6 +217,7 @@ print(reverted)
 
 ```
 
+<b>sanitized and reverted output</b>
 ```
 My name is [PERSON 1] and my phone number is [PHONE_NUMBER 5].
 My social security number is [US_SSN 4].
@@ -242,6 +242,7 @@ result = shield.sanitize(text)
 print(result.sanitized)
 ```
 
+<b>sanitized output (irreversible)</b>
 ```
 My name is _ and my phone number is _.
 My social security number is _.
