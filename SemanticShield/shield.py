@@ -1,4 +1,3 @@
-
 import logging
 from typing import Callable, Dict, Optional
 
@@ -12,6 +11,7 @@ from SemanticShield.llm_result import LLMCheckResult
 
 from SemanticShield.pii_analyzer import PIIAnalyzer
 
+from SemanticShield.profanity import profanity
 from SemanticShield.prompts import Prompts
 from SemanticShield.shield_config import ShieldConfig
 
@@ -70,6 +70,17 @@ class SemanticShield:
             )
         return ShieldResult(False)
 
+    def check_prompt_profanity(self, prompt: str, _=True)->ShieldResult:
+        #check for profanity
+        result = profanity.check_profanity(prompt, precise=self.config.profanity)
+        if result:
+            return ShieldResult(
+                True,
+                message = 'Your request has been flagged by SemanticShield moderation: {profanity}',
+                fail_type = 'MODERATION',
+            )
+        return ShieldResult(False)
+
     def check_topic(self, input: str, topic: str, moderate: bool = True)->ShieldResult:
         #verify prohibited topics (by example or by allowing chatgpt to classify input)
         if topic in self.config.topic_samples:
@@ -114,7 +125,6 @@ class SemanticShield:
                 return ShieldResult(True, fail_type='PII', message=self.config.pii.error, pii_max=pii_max, pii_total=pii_total, usage=usage_total)
         return ShieldResult(False, pii_max=pii_max, pii_total=pii_total, usage=usage_total)
     
-
     def do_check(self, text: str, usage_total, checker_func: Callable[[str], ShieldResult], moderate=True) -> (bool, ShieldResult, float):
         failed = False
         result = None
@@ -140,6 +150,8 @@ class SemanticShield:
         pii_total = result.pii_total
         if not failed:
             failed, result, usage_total = self.do_check(text, usage_total, self.check_prompt_moderation)
+        if not failed:
+            failed, result, usage_total = self.do_check(text, usage_total, self.check_prompt_profanity)
         if not failed:
             failed, result, usage_total = self.do_check(text, usage_total, self.check_jailbreak, moderate=False)
         if not failed:

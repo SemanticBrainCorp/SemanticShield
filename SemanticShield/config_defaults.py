@@ -8,6 +8,10 @@ class ConfigDefaults(object):
         pii = obj['pii']
     else:
         pii = None
+    if 'profanity' in obj:
+        profanity = obj['profanity']
+    else:
+        profanity = 'imprecise'
     if 'topics' in obj:
         topics = obj['topics']
     else:

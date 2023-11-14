@@ -11,6 +11,7 @@ pii:
   - DATE_TIME
   - NRP
   error: Please rephrase without using personal and confidential information.
+profanity: "imprecise"
 topics:
 - political
 topic_samples:

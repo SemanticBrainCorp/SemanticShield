@@ -5,6 +5,7 @@ pii:
     redact_string: _
     max_threshold: 0.5
     total_threshold: 2.0
+profanity: "imprecise"
 topics:
     - political
 topic_samples:
