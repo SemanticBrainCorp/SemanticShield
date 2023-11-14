@@ -4,6 +4,11 @@ import timeit
 
 profanity.load_censor_words()
 
+# two methods
+#   'imprecise' = quick, very broad but lacking good support for leetspeak (alt-profanity-check)
+#   'precise' = slower, less broad but good support for leetspeak (better_profanity)
+# setting 'precise' mode triggers both checks
+
 def quick_test(text):
     # 2 sec/1000 text
     result = predict([text])
