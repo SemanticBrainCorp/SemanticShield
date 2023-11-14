@@ -28,6 +28,7 @@ class ShieldConfig:
         self.pii = PIIConfig(**ConfigDefaults.pii)
         self.jailbreak_prompt = Prompts.jailbreak_prompt
         self.output_moderation_prompt = Prompts.output_moderation_prompt
+        self.profanity = ConfigDefaults.profanity
         self.topics = ConfigDefaults.topics
         self.topic_samples = ConfigDefaults.topic_samples
         self.topic_errors = ConfigDefaults.topic_errors
@@ -44,6 +45,7 @@ class ShieldConfig:
         self.pii = PIIConfig(**obj.get('pii', ConfigDefaults.pii))
         self.jailbreak_prompt = obj.get('jailbreak_prompt', Prompts.jailbreak_prompt)
         self.output_moderation_prompt = obj.get('output_moderation_prompt', Prompts.output_moderation_prompt)
+        self.profanity = obj.get('profanity', ConfigDefaults.profanity)
         self.topics = obj.get('topics', ConfigDefaults.topics)
         self.topic_samples = obj.get('topic_samples', ConfigDefaults.topic_samples)
         self.topic_errors = obj.get('topic_errors', ConfigDefaults.topic_errors)
