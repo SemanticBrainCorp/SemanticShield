@@ -65,7 +65,7 @@ python setup.py sdist bdist_wheel
 
 ```pip install .```
 
-```python -m spacy download en_core_web_lg```
+```python -m spacy download en_core_web_md```
 
 
 ## Hosting
