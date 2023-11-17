@@ -5,7 +5,7 @@ presidio-analyzer==2.2.33
 exrex==0.11.0
 better_profanity==0.7.0
 alt-profanity-check==1.3.1
-# python -m spacy download en_core_web_lg
+# python -m spacy download en_core_web_md
 
 Flask==2.3.3
 Flask-Cors==4.0.0

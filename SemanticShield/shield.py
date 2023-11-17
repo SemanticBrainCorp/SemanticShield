@@ -1,8 +1,7 @@
 import logging
 from typing import Callable, Dict, Optional
 
-# import os
-# import spacy
+import spacy
 
 from SemanticShield.openai_funcs import moderate_prompt, run_prompt
 from SemanticShield.errors import ModerationException
@@ -24,13 +23,13 @@ logging.getLogger("faker").setLevel(logging.WARNING)
 logging.getLogger("presidio-analyzer").setLevel(logging.ERROR)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
-# model = "en_core_web_lg"
-# try:
-#     nlp = spacy.load(model)
-# except OSError:
-#     import spacy.cli
-#     spacy.cli.download(model)
-#     nlp = spacy.load(model)
+model = "en_core_web_md"
+try:
+    nlp = spacy.load(model)
+except OSError:
+    import spacy.cli
+    spacy.cli.download(model)
+    nlp = spacy.load(model)
 
 class SemanticShield:
     def __init__(

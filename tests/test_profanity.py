@@ -45,34 +45,25 @@ def test_plain(mock_chat, mock_moderation):
     result = shield(text)
     assert result.fail == True
     assert result.usage == 0
-    
-@patch("openai.ChatCompletion.create", return_value=good_opeai)
-@patch("openai.Moderation.create", return_value=good_moderation)
-def test_leetspeak(mock_chat, mock_moderation):
-    text = 'You piece of sh1t!'
-    shield = SemanticShield()
-    result = shield(text)
-    assert result.fail == True
-    assert result.usage == 0
-    
+        
 @patch("openai.ChatCompletion.create", return_value=good_opeai)
 @patch("openai.Moderation.create", return_value=good_moderation)
 def test_leetspeak_precision(mock_chat, mock_moderation):
-    text = 'f4ck you"'
+    for text in ['f4ck you', 'You piece of sh1t!']:
 
-    config_str = '{"profanity": "imprecise"}'
-    config = ShieldConfig.from_string(config_str)
-    shield = SemanticShield(config)
-    
-    result = shield(text)
-    assert result.fail == False
+        config_str = '{"profanity": "imprecise"}'
+        config = ShieldConfig.from_string(config_str)
+        shield = SemanticShield(config)
+        
+        result = shield(text)
+        assert result.fail == False
 
-    config_str = '{"profanity": "precise"}'
-    config = ShieldConfig.from_string(config_str)
-    shield = SemanticShield(config)
-    
-    result = shield(text)
-    assert result.fail == True
+        config_str = '{"profanity": "precise"}'
+        config = ShieldConfig.from_string(config_str)
+        shield = SemanticShield(config)
+        
+        result = shield(text)
+        assert result.fail == True
     
 @patch("openai.ChatCompletion.create", return_value=good_opeai)
 @patch("openai.Moderation.create", return_value=good_moderation)

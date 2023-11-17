@@ -1,6 +1,7 @@
 from functools import lru_cache
 from typing import List
 from presidio_analyzer import AnalyzerEngine, RecognizerResult, AnalyzerEngine, RecognizerRegistry
+from presidio_analyzer.nlp_engine import NlpEngineProvider
 
 from SemanticShield.config_defaults import ConfigDefaults
 from SemanticShield.dummy_data import DummyData
@@ -27,7 +28,18 @@ def init_analyzer():
     registry.add_recognizer(ca_bank_acct_recognizer)
     registry.add_recognizer(on_drivers_license_recognizer)
     registry.add_recognizer(on_health_card_recognizer)
-    return AnalyzerEngine(registry=registry)
+    configuration = {
+        "nlp_engine_name": "spacy",
+        "models": [{"lang_code": "en", "model_name": "en_core_web_md"}],
+    }
+    provider = NlpEngineProvider(nlp_configuration=configuration)
+    nlp_engine = provider.create_engine()
+    analyzer = AnalyzerEngine(
+        registry=registry,
+        nlp_engine=nlp_engine, 
+        supported_languages=["en"]
+    )
+    return analyzer
 
 analyzer_instace = init_analyzer()
 

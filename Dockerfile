@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir  -r requirements.txt
 ## set working directory
 WORKDIR /usr/src/app
 
-RUN python3 -m spacy download en_core_web_lg
+RUN python3 -m spacy download en_core_web_md
 
 ## add user
 RUN addgroup --system user && adduser --system --no-create-home --group user
