@@ -41,7 +41,7 @@ Three principles driving architecture and approach are
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SemanticShield like below. 
 ```bash
-pip install SemanticShield==0.1.6
+pip install SemanticShield==0.1.7
 ```
 
 ## Developer Info

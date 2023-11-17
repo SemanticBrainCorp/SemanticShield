@@ -2,7 +2,7 @@ version: '3'
 services:
 
   semanticshield:
-    image: semanticshield:0.1.6
+    image: semanticshield:0.1.7
     container_name: semanticshield
     logging:
       driver: "local"
