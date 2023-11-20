@@ -12,6 +12,7 @@ from SemanticShield.pii_analyzer import PIIAnalyzer
 
 from SemanticShield.profanity import profanity
 from SemanticShield.prompts import Prompts
+from SemanticShield.sensitive import passwords
 from SemanticShield.shield_config import ShieldConfig
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -15s %(filename) -15s %(funcName) '
@@ -76,6 +77,17 @@ class SemanticShield:
             return ShieldResult(
                 True,
                 message = 'Your request has been flagged by SemanticShield moderation: {profanity}',
+                fail_type = 'MODERATION',
+            )
+        return ShieldResult(False)
+
+    def check_prompt_sensitive(self, prompt: str, _=True)->ShieldResult:
+        #check for sensitive information
+        result = passwords.check_password(prompt, self.config.sensitive.regex)
+        if result:
+            return ShieldResult(
+                True,
+                message = self.config.sensitive.error,
                 fail_type = 'MODERATION',
             )
         return ShieldResult(False)
@@ -147,6 +159,8 @@ class SemanticShield:
             failed = True
         pii_max = result.pii_max
         pii_total = result.pii_total
+        if not failed:
+            failed, result, usage_total = self.do_check(text, usage_total, self.check_prompt_sensitive)
         if not failed:
             failed, result, usage_total = self.do_check(text, usage_total, self.check_prompt_moderation)
         if not failed:

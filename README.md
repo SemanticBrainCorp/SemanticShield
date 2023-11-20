@@ -16,6 +16,7 @@ Semantic Shield represents an open-source initiative focused on AI security, saf
 * **Jailbreak Attempt Detection**: Identify and thwart attempts to compromise the integrity of AI systems.
 * **Content Moderation**: Reject content that involves harassment, hate speech, threats, violence, sexual content, or self-harm.
 * **Profanity Moderation**: Detect and enforce restrictions on profanity.
+* **Sensitive Information Detection**: Detect sensitive information (passwords in clear and base64).
 * **Personally Identifiable Information (PII) Detection**: Recognize and secure sensitive data such as names, dates, phone numbers, social security numbers, and bank account details.
 * **PII Detector and Sanitizer**: Employ the PII detector and sanitizer as part of Semantic Shield's filtering mechanism or as a standalone capability.
 * **Optional PII Concealment**: Choose to obscure PII by using tokens or dummy data, with the ability to reverse the process as needed.
@@ -41,7 +42,7 @@ Three principles driving architecture and approach are
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SemanticShield like below. 
 ```bash
-pip install SemanticShield==0.1.7
+pip install SemanticShield==0.1.8
 ```
 
 ## Developer Info

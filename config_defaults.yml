@@ -1,6 +1,6 @@
 ---
 pii:
-  'on': True
+  on: True
   permissive: False
   operation: mask
   redact_string: _
@@ -11,6 +11,19 @@ pii:
   - DATE_TIME
   - NRP
   error: Please rephrase without using personal and confidential information.
+profanity: "imprecise"
+sensitive:
+  on: True
+  policy:
+  #policy can be defined as criteria or regex
+  #if both present, regex is used
+    min_length: 8
+    num_uppercase: 1
+    num_lowercase: 1
+    num_numerics: 1
+    num_symbols: 1
+  #regex: ^(?=.*[A-Z]){1,}(?=.*[a-z]){1,}(?=.*\d){1,}(?=.*[@$!%*?&]){1,}.{8,}$
+  error: Please rephrase without using sensitive information.
 topics:
 - political
 topic_samples:

@@ -1,7 +1,8 @@
 import json
 
 from dataclasses import dataclass, field
-from typing import Dict, List
+from typing import List
+from SemanticShield.errors import InvalidParametersException
 
 from SemanticShield.yaml_parser import yaml_parser, yaml_file_parser
 from SemanticShield.config_defaults import ConfigDefaults
@@ -21,11 +22,43 @@ class PIIConfig:
     error: str = ConfigDefaults.pii['error']
 
 @dataclass
+class SensitiveConfig:
+    def __new__(cls, on=None, policy=None, regex=None, error=None):
+        instance = super().__new__(cls)
+        return instance
+
+    def __init__(self, 
+                on: bool = ConfigDefaults.sensitive.get('on' , False), 
+                policy: dict = ConfigDefaults.sensitive.get('policy', None), 
+                regex: str = ConfigDefaults.sensitive.get('regex', None), 
+                error: str = ConfigDefaults.sensitive.get('error', None)):
+        self.on = on
+        self.regex = regex
+        self.policy = policy
+        self.error = error
+        if self.regex is None and self.policy is None:
+            raise InvalidParametersException()
+        if self.regex is None:
+            self.regex = self.gen_regex(self.policy)
+
+
+    def gen_regex(self, config: dict) -> str:
+        regex_parts = [
+            f'(?=.*[A-Z]){{{config["num_uppercase"]},}}',  
+            f'(?=.*[a-z]){{{config["num_lowercase"]},}}',  
+            f'(?=.*\d){{{config["num_numerics"]},}}',      
+            f'(?=.*[@$!%*?+\-&]){{{config["num_symbols"]},}}'
+        ]
+        regex = f"^{''.join(regex_parts)}.{{{config['min_length']},}}$"
+        return regex            
+
+@dataclass
 class ShieldConfig:
 
     def __new__(cls):
         self = super().__new__(cls)
         self.pii = PIIConfig(**ConfigDefaults.pii)
+        self.sensitive = SensitiveConfig(**ConfigDefaults.sensitive)
         self.jailbreak_prompt = Prompts.jailbreak_prompt
         self.output_moderation_prompt = Prompts.output_moderation_prompt
         self.profanity = ConfigDefaults.profanity
@@ -43,6 +76,7 @@ class ShieldConfig:
     def from_dict(cls, obj):
         self = cls()
         self.pii = PIIConfig(**obj.get('pii', ConfigDefaults.pii))
+        self.sensitive = SensitiveConfig(**obj.get('sensitive', ConfigDefaults.sensitive))
         self.jailbreak_prompt = obj.get('jailbreak_prompt', Prompts.jailbreak_prompt)
         self.output_moderation_prompt = obj.get('output_moderation_prompt', Prompts.output_moderation_prompt)
         self.profanity = obj.get('profanity', ConfigDefaults.profanity)
