@@ -8,6 +8,10 @@ class ConfigDefaults(object):
         pii = obj['pii']
     else:
         pii = None
+    if 'sensitive' in obj:
+        sensitive = obj['sensitive']
+    else:
+        sensitive = None
     if 'profanity' in obj:
         profanity = obj['profanity']
     else:

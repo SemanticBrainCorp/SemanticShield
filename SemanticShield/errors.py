@@ -15,6 +15,10 @@ class APIKEYException(Exception):
     """Exception raised when OpenAI key is missing."""
     pass
 
+class InvalidParametersException(Exception):
+    """Exception raised when OpenAI key is missing."""
+    pass
+
 class ShieldException(Exception):
     """Semantic Shield Fail Exception."""
     def __init__(self, shield_result):

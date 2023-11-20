@@ -1,5 +1,5 @@
 from pprint import pprint
-import yaml
+import os
 from yaml.resolver import Resolver
 
 from SemanticShield import SemanticShield, ShieldConfig
@@ -41,6 +41,21 @@ politics = [
 # assert result.fail == True
 # assert result.usage == 55
 # assert result.message == "I don't like to talk about politics"
+
+
+
+texts = [
+    "03/22 08:51:06 INFO   :...read_physical_netif: index #1, interface TR1 has address 9.37.65.139, ifidx 1",
+    "03/22 08:51:06 INFO   :...read_physical_netif: index #4, Somepwd123*!  interface CTCD0 Hs51+m32-J5h has address 9.67.116.98, ifidx 4",
+    "03/22 08:51:06 INFO   :...read_physical_netif: index #1, interface TR1 has 1uX3@2^h1$hR address 9.37.65.139, VCNzdDEyMyFfQQ== ifidx 1"
+]
+
+
+# config = ShieldConfig.from_dict({"pii": {"permissive": True, "permissive_allow": ['DATE_TIME', 'IP_ADDRESS', 'PERSON', 'URL']}})
+# shield = SemanticShield(config)
+shield = SemanticShield()
+result = shield(texts[0])
+pprint(result)
 
 
 shield = SemanticShield()
