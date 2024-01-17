@@ -1,5 +1,17 @@
 from SemanticShield.yaml_parser import yaml_file_parser
 
+sensitive_def = {
+    'on': True,
+    'policy': {
+        'min_length': 8,
+        'num_uppercase': 1,
+        'num_lowercase': 1,
+        'num_numerics': 1,
+        'num_symbols': 1
+    },
+    'error': 'Please rephrase without using sensitive information.'
+}
+
 class ConfigDefaults(object):
 
     obj = yaml_file_parser('config_defaults.yml')
@@ -11,7 +23,7 @@ class ConfigDefaults(object):
     if 'sensitive' in obj:
         sensitive = obj['sensitive']
     else:
-        sensitive = None
+        sensitive = sensitive_def
     if 'profanity' in obj:
         profanity = obj['profanity']
     else:
