@@ -1,19 +1,16 @@
-import openai
-
 from pydantic import BaseModel, Field
-from typing import List
 from guardrails.validators import ValidLength
 
 import guardrails as gd
 
+from SemanticShield.client import get_openai_client
+
 
 guard_openai_initialized = False
 def init_openai_key():
-    global guard_openai_initialized
+    global guard_openai_initialized, client
     if not guard_openai_initialized:
-        if 'OPENAI_API_KEY' not in os.environ:
-            raise APIKEYException(f"OPENAI key not set")
-        openai.api_key = os.environ['OPENAI_API_KEY']
+        client = get_openai_client()
         guard_openai_initialized = True
 
 def generate_for_role(role_config_df, role, user_content):
@@ -44,7 +41,7 @@ def generate_for_role(role_config_df, role, user_content):
 
     # Wrap the OpenAI API call with the `guard` object
     raw_llm_output, validated_output = guard(
-        openai.ChatCompletion.create,
+        client.chat.completions.create,
         model="gpt-3.5-turbo",
         max_tokens=2048,
         temperature=0.3,

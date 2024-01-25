@@ -2,6 +2,7 @@ import logging
 from typing import Callable, Dict, Optional
 
 import spacy
+from transformers import pipeline
 
 from SemanticShield.openai_funcs import moderate_prompt, run_prompt
 from SemanticShield.errors import ModerationException
@@ -44,12 +45,28 @@ class SemanticShield:
         self.backup_create = backup_create
         self.backup_chat_create = backup_chat_create
 
-    def check_jailbreak(self, prompt: str, moderate: bool = True)->ShieldResult:
-        #checks for jailbreaking attempts
-        prompt = self.config.jailbreak_prompt.replace('##PROMPT##', prompt)
-        llm_check_result = run_prompt(prompt, moderate=moderate, backup_create=self.backup_create, backup_chat_create=self.backup_chat_create)
-        return ShieldResult(llm_check_result.fail, fail_type='JAILBREAK', message="I am not able to answer the question.", usage = llm_check_result.usage)
+    def check_jailbreak(self, text: str, usage_total: int=0) -> ShieldResult:
+        if self.config.jailbreak.on:
+            for model_name in self.config.jailbreak.models:
+                classifier = pipeline('text-classification', model=model_name)
+                hits = []
+                hits = classifier(text)
 
+                if len(hits) > 0:
+                    for rec in hits:
+                        if rec['label'] == 'INJECTION':
+                            if rec['score'] > self.config.jailbreak.threshold:
+                                logging.warning(f'Detected prompt injection; score={rec["score"]} threshold={self.config.jailbreak.threshold}')
+                                return ShieldResult(True, fail_type='JAILBREAK', message=self.config.jailbreak.error, usage=usage_total)
+                            else:
+                                logging.warning(
+                                    f'Detected prompt injection below threshold (may warrant manual review); \
+                                    score={rec["score"]} threshold={self.config.jailbreak.threshold}'
+                                )
+                else:
+                    logging.info(f'No hits returned by model')
+            return ShieldResult(False, usage=usage_total)
+    
     def check_output(self, response: str, moderate: bool = True)->LLMCheckResult:
         #checks for undesireable outputs
         prompt = self.output_moderation_prompt.replace('##RESPONSE##', response)
@@ -166,7 +183,7 @@ class SemanticShield:
         if not failed:
             failed, result, usage_total = self.do_check(text, usage_total, self.check_prompt_profanity)
         if not failed:
-            failed, result, usage_total = self.do_check(text, usage_total, self.check_jailbreak, moderate=False)
+            failed, result, usage_total = self.do_check(text, usage_total, self.check_jailbreak)
         if not failed:
             failed, result, usage_total = self.do_check(text, usage_total, self.check_topics, moderate=False)
         if not failed:

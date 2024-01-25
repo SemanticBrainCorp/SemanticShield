@@ -22,6 +22,13 @@ class PIIConfig:
     error: str = ConfigDefaults.pii['error']
 
 @dataclass
+class JailbreakConfig:
+    on: bool = ConfigDefaults.jailbreak['on']
+    threshold: float = ConfigDefaults.jailbreak['threshold']
+    models: List[str] = field(default_factory=lambda: ConfigDefaults.jailbreak['models'])
+    error: str = ConfigDefaults.jailbreak['error']
+    
+@dataclass
 class SensitiveConfig:
     def __new__(cls, on=None, policy=None, regex=None, error=None):
         instance = super().__new__(cls)
@@ -59,7 +66,7 @@ class ShieldConfig:
         self = super().__new__(cls)
         self.pii = PIIConfig(**ConfigDefaults.pii)
         self.sensitive = SensitiveConfig(**ConfigDefaults.sensitive)
-        self.jailbreak_prompt = Prompts.jailbreak_prompt
+        self.jailbreak = JailbreakConfig(**ConfigDefaults.jailbreak)
         self.output_moderation_prompt = Prompts.output_moderation_prompt
         self.profanity = ConfigDefaults.profanity
         self.topics = ConfigDefaults.topics
@@ -77,7 +84,7 @@ class ShieldConfig:
         self = cls()
         self.pii = PIIConfig(**obj.get('pii', ConfigDefaults.pii))
         self.sensitive = SensitiveConfig(**obj.get('sensitive', ConfigDefaults.sensitive))
-        self.jailbreak_prompt = obj.get('jailbreak_prompt', Prompts.jailbreak_prompt)
+        self.jailbreak = JailbreakConfig(**obj.get('jailbreak', ConfigDefaults.jailbreak))
         self.output_moderation_prompt = obj.get('output_moderation_prompt', Prompts.output_moderation_prompt)
         self.profanity = obj.get('profanity', ConfigDefaults.profanity)
         self.topics = obj.get('topics', ConfigDefaults.topics)

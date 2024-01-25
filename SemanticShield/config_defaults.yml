@@ -12,6 +12,12 @@ pii:
   - NRP
   error: Please rephrase without using personal and confidential information.
 profanity: "imprecise"
+jailbreak:
+  on: True
+  threshold: 0.98
+  models:
+  - laiyer/deberta-v3-base-prompt-injection
+  error: I am not able to answer the question.
 sensitive:
   on: True
   policy:

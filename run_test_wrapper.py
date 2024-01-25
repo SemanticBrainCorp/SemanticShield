@@ -1,6 +1,8 @@
 from SemanticShield import openai_wrapper
 from SemanticShield import ShieldException
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 from pprint import pprint
 
 configuration = {
@@ -12,17 +14,15 @@ configuration = {
     }
 }
 def do_chat(query):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{
-            "role": "system",
-            "content": "The following is a conversation with an AI assistant."
-            }, {
-            "role": "user",
-            "content": query
-        }],
-        temperature=0,
-    )
+    response = client.chat.completions.create(model="gpt-3.5-turbo",
+    messages=[{
+        "role": "system",
+        "content": "The following is a conversation with an AI assistant."
+        }, {
+        "role": "user",
+        "content": query
+    }],
+    temperature=0)
     return response
 
 def test_wrapper(configuration=None):

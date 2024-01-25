@@ -12,6 +12,13 @@ sensitive_def = {
     'error': 'Please rephrase without using sensitive information.'
 }
 
+jailbreak_def = {
+    'on': True,
+    'threshold': 0.98,
+    'models': ['laiyer/deberta-v3-base-prompt-injection'],
+    'error': 'I am not able to answer the question.'
+}
+
 class ConfigDefaults(object):
 
     obj = yaml_file_parser('config_defaults.yml')
@@ -24,6 +31,10 @@ class ConfigDefaults(object):
         sensitive = obj['sensitive']
     else:
         sensitive = sensitive_def
+    if 'jailbreak' in obj:
+        jailbreak = obj['jailbreak']
+    else:
+        jailbreak = jailbreak_def
     if 'profanity' in obj:
         profanity = obj['profanity']
     else:

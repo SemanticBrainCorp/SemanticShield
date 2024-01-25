@@ -2,3 +2,4 @@ from SemanticShield.shield import SemanticShield
 from SemanticShield.shield_config import ShieldConfig
 from SemanticShield.errors import ShieldException
 from SemanticShield.wrappers import openai_wrapper
+from SemanticShield.shield_result import ShieldResult

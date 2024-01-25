@@ -1,35 +1,31 @@
 import logging
-import openai
-import os
+
+
+from SemanticShield.client import get_openai_client, get_moderation_client
 from SemanticShield.errors import APIKEYException, ModerationException
 from SemanticShield.llm_result import LLMCheckResult
 
-from SemanticShield.openai_model import OpenAIModel
 from SemanticShield.openai_settings import OpenAISettings
 
 ENGINE=OpenAISettings.ENGINE
 CHAT_ENGINE=OpenAISettings.CHAT_ENGINE
-MODEL = OpenAIModel.CHAT_GPT
 
 initialized = False
 def init_openai_key():
-    global initialized
+    global initialized, client, moderation_client
     if not initialized:
-        if 'OPENAI_API_KEY' not in os.environ:
-            raise APIKEYException(f"OPENAI key not set")
-        openai.api_key = os.environ['OPENAI_API_KEY']
+        client = get_openai_client()
+        moderation_client = get_moderation_client()
         initialized = True
 
 def moderate_prompt(prompt: str):
     init_openai_key()
     #run the prompt against OpenAIs moderation API
-    response = openai.Moderation.create(
-        input=prompt
-    )
-    output = response["results"][0]
-    if output['flagged']:
-        flags = [i for i in output['categories'] if output['categories'][i]]
-
+    response = moderation_client.moderations.create(input=prompt)
+    print(response)
+    output = response.results[0]
+    if output.flagged:
+        flags = [f for f in output.categories.model_fields_set if getattr(output.categories, f)]        
         # TODO - report error
         raise ModerationException(flags=flags)
 
@@ -44,37 +40,20 @@ def run_prompt(prompt: str, max_tokens: int = 100, temperature: float = 0.7, cha
     if moderate:
         try:
             moderate_prompt(prompt)
-        except openai.error.Timeout:
+        except Exception:
             logging.exception("OpenAI API request timed out")
             raise
     
-    if MODEL == OpenAIModel.CHAT_GPT and chat is True:
-        func = openai.ChatCompletion.create
-        if backup_chat_create:
-            func = backup_chat_create
-        response = func(
-            model=CHAT_ENGINE,
-            temperature=temperature,
-            messages=[{
-                "role": "user",
-                "content": prompt
-            }])
-        usage = response['usage']['total_tokens']
-        result = response['choices'][0]['message']['content']
-    else:
-        func = openai.Completion.create
-        if backup_create:
-            func = backup_create
-        response = func(
-            engine=ENGINE,
-            prompt=prompt,
-            temperature=temperature,
-            max_tokens=max_tokens,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0
-        )
-        usage = response['usage']['total_tokens']
-        result = response['choices'][0]['text']
+    func = client.chat.completions.create
+    if backup_chat_create:
+        func = backup_chat_create
+    response = func(
+        model=CHAT_ENGINE,
+        temperature=temperature,
+        messages=[{
+            "role": "user",
+            "content": prompt
+        }])
+    usage = response.usage.total_tokens
+    result = response.choices[0].message.content.strip()
     return LLMCheckResult(standardize_result(result), usage)
-
