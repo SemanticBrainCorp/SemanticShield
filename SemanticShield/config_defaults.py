@@ -9,7 +9,8 @@ sensitive_def = {
         'num_numerics': 1,
         'num_symbols': 1
     },
-    'error': 'Please rephrase without using sensitive information.'
+    'error': 'Please rephrase without using sensitive information.',
+    'enhanced': True,
 }
 
 jailbreak_def = {

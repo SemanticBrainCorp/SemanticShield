@@ -30,16 +30,18 @@ class JailbreakConfig:
     
 @dataclass
 class SensitiveConfig:
-    def __new__(cls, on=None, policy=None, regex=None, error=None):
+    def __new__(cls, on=None, enhanced=False, policy=None, regex=None, error=None):
         instance = super().__new__(cls)
         return instance
 
     def __init__(self, 
                 on: bool = ConfigDefaults.sensitive.get('on' , False), 
+                enhanced: bool = ConfigDefaults.sensitive.get('enhanced' , False), 
                 policy: dict = ConfigDefaults.sensitive.get('policy', None), 
                 regex: str = ConfigDefaults.sensitive.get('regex', None), 
                 error: str = ConfigDefaults.sensitive.get('error', None)):
         self.on = on
+        self.enhanced = enhanced
         self.regex = regex
         self.policy = policy
         self.error = error

@@ -42,12 +42,12 @@ Three principles driving architecture and approach are
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SemanticShield like below. 
 ```bash
-pip install SemanticShield==0.1.10
+pip install SemanticShield==0.1.11
 ```
 
 ## Developer Info
 
-* developed and tested using ```python 3.9``` and ```3.10```
+* developed and tested using ```3.11```
 * create a virtual environment using `requirements.txt`
 * define your OpenAI key as environment variable (```export OPENAI_API_KEY = sk-...```) or create a ```.env``` file (Visual Studio Code) (```OPENAI_API_KEY = sk-...```)
 

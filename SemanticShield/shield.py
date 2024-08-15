@@ -13,7 +13,7 @@ from SemanticShield.pii_analyzer import PIIAnalyzer
 
 from SemanticShield.profanity import profanity
 from SemanticShield.prompts import Prompts
-from SemanticShield.sensitive import passwords
+from SemanticShield.sensitive import enhanced, passwords
 from SemanticShield.shield_config import ShieldConfig
 
 LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(name) -15s %(filename) -15s %(funcName) '
@@ -65,7 +65,7 @@ class SemanticShield:
                                 )
                 else:
                     logging.info(f'No hits returned by model')
-            return ShieldResult(False, usage=usage_total)
+        return ShieldResult(False, usage=usage_total)
     
     def check_output(self, response: str, moderate: bool = True)->LLMCheckResult:
         #checks for undesireable outputs
@@ -107,6 +107,15 @@ class SemanticShield:
                 message = self.config.sensitive.error,
                 fail_type = 'MODERATION',
             )
+        if self.config.sensitive.enhanced:
+            result = enhanced.check(prompt)
+            if result:
+                return ShieldResult(
+                    True,
+                    message = self.config.sensitive.error,
+                    fail_type = 'MODERATION',
+                )
+
         return ShieldResult(False)
 
     def check_topic(self, input: str, topic: str, moderate: bool = True)->ShieldResult:

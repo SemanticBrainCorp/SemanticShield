@@ -57,6 +57,34 @@ shield = SemanticShield()
 result = shield(texts[0])
 pprint(result)
 
+acceptable = """-----BEGIN RSA PUBLIC KEY-----
+    RG8geW91IGhhdmUgdG8gZGVhbCB3aXRoIEJhc2U2NCBmb3JtYXQ/IFRoZW4gdGhpc
+    yBzaXRlIGlzIHBlcmZlY3QgZm9yIHlvdSEgVXNlIG91ciBzdXBlciBoYW5keSBvbm
+    xpbmUgdG9vbCB0byBlbmNvZGUgb3IgZGVjb2RlIHlvdXIgZGF0YS4=
+    -----END RSA PUBLIC KEY-----"""
+config_str = """{
+        "jailbreak": {
+            "on": false
+        },
+        "sensitive": {
+            "on": true,
+            "enhanced": true,
+            "policy": {
+            "min_length": 8,
+            "num_uppercase": 1,
+            "num_lowercase": 1,
+            "num_numerics": 1,
+            "num_symbols": 1
+            },
+            "error": "Please rephrase without using sensitive information."
+        }
+        }"""
+config = ShieldConfig.from_string(config_str)
+shield = SemanticShield(config)
+result = shield(acceptable)
+pprint(result)
+
+
 
 shield = SemanticShield()
 

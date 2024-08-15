@@ -20,6 +20,7 @@ jailbreak:
   error: I am not able to answer the question.
 sensitive:
   on: True
+  enhanced: True
   policy:
   #policy can be defined as criteria or regex
   #if both present, regex is used
