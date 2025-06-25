@@ -1,19 +1,19 @@
-openai==1.40.6
-spacy==3.7.5
-Faker==25.9.2
-presidio-analyzer==2.2.355
-exrex==0.11.0
+openai==1.91.0
+spacy==3.8.7
+Faker==25.9.2 #older version for guardrails compatibility - guardrails only used in rb_generator, maybe remove
+presidio-analyzer==2.2.358
+exrex==0.12.0
 better_profanity==0.7.0
-alt-profanity-check==1.5.1
+alt-profanity-check==1.7.0
 # python -m spacy download en_core_web_md
 
-Flask==3.0.3
-Flask-Cors==4.0.1
-waitress==3.0.0
+Flask==3.1.1
+Flask-Cors==6.0.1
+waitress==3.0.2
 
-pandas==2.2.2
-guardrails_ai==0.5.4
-pydantic==2.8.2
+pandas==2.3.0
+guardrails_ai==0.6.6
+pydantic==2.11.7
 
-transformers==4.44.0
-torch==2.4.0
+transformers==4.52.4
+torch==2.7.1

@@ -11,6 +11,8 @@ good_moderation_dict = {
                 "harassment_threatening": False,
                 "hate": False,
                 "hate_threatening": False,
+                "illicit": False,
+                "illicit/violent": False,
                 "self_harm": False,
                 "self_harm_instructions": False,
                 "self_harm_intent": False,
@@ -31,6 +33,8 @@ good_moderation_dict = {
                 "harassment_threatening": 3.385432600921945e-09,
                 "hate": 7.85966491889667e-09,
                 "hate_threatening": 3.830443178354931e-13,
+                "illicit": 3.385432600921945e-09,
+                "illicit/violent": 3.385432600921945e-09,
                 "self_harm": 6.442630717112818e-13,
                 "self_harm_instructions": 3.677696778299662e-14,
                 "self_harm_intent": 8.662998233703427e-16,
@@ -46,6 +50,21 @@ good_moderation_dict = {
                 "self-harm/instructions": 3.677696778299662e-14,
                 "harassment/threatening": 3.385432600921945e-09,
             },
+            "category_applied_input_types": {
+                "harassment": ["text"],
+                "harassment/threatening": ["text"],
+                "sexual": ["text", "image"],
+                "hate": ["text"],
+                "hate/threatening": ["text"],
+                "illicit": ["text"],
+                "illicit/violent": ["text"],
+                "self-harm/intent": ["text", "image"],
+                "self-harm/instructions": ["text", "image"],
+                "self-harm": ["text", "image"],
+                "sexual/minors": ["text"],
+                "violence": ["text", "image"],
+                "violence/graphic": ["text", "image"],
+            },
             "flagged": False,
         }
     ],
@@ -60,6 +79,8 @@ harassment_moderation_dict = {
                 "harassment_threatening": False,
                 "hate": False,
                 "hate_threatening": False,
+                "illicit": False,
+                "illicit/violent": False,
                 "self_harm": False,
                 "self_harm_instructions": False,
                 "self_harm_intent": False,
@@ -80,6 +101,8 @@ harassment_moderation_dict = {
                 "harassment_threatening": 3.385432600921945e-09,
                 "hate": 7.85966491889667e-09,
                 "hate_threatening": 3.830443178354931e-13,
+                "illicit": 3.385432600921945e-09,
+                "illicit/violent": 3.385432600921945e-09,
                 "self_harm": 6.442630717112818e-13,
                 "self_harm_instructions": 3.677696778299662e-14,
                 "self_harm_intent": 8.662998233703427e-16,
@@ -94,6 +117,21 @@ harassment_moderation_dict = {
                 "self-harm/intent": 8.662998233703427e-16,
                 "self-harm/instructions": 3.677696778299662e-14,
                 "harassment/threatening": 3.385432600921945e-09,
+            },
+            "category_applied_input_types": {
+                "harassment": ["text"],
+                "harassment/threatening": ["text"],
+                "sexual": ["text", "image"],
+                "hate": ["text"],
+                "hate/threatening": ["text"],
+                "illicit": ["text"],
+                "illicit/violent": ["text"],
+                "self-harm/intent": ["text", "image"],
+                "self-harm/instructions": ["text", "image"],
+                "self-harm": ["text", "image"],
+                "sexual/minors": ["text"],
+                "violence": ["text", "image"],
+                "violence/graphic": ["text", "image"],
             },
             "flagged": True,
         }
@@ -144,7 +182,7 @@ bad_opeai_dict_55 = {
 }
 
 
-good_moderation = ModerationCreateResponse(**good_moderation_dict) 
+good_moderation = ModerationCreateResponse(**good_moderation_dict)
 harassment_moderation = ModerationCreateResponse(**harassment_moderation_dict)
 
 good_opeai_55 = ChatCompletion(**good_opeai_dict_55)
